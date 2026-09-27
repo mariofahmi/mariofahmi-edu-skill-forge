@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>edu-skill-forge — AI Skills for Indonesian Educators</title>
+  <meta name="description" content="Koleksi 6 AI Skill resmi untuk Antigravity & Agentic AI: RPS, UTS, UAS, Kontrak Kuliah, Jurnal Perkuliahan, Rubrik Penilaian OBE UNIROW." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --c1: #7c3aed;
+      --c2: #2563eb;
+      --c3: #0891b2;
+      --c4: #059669;
+      --c5: #d97706;
+      --c6: #dc2626;
+      --grad: linear-gradient(135deg, #7c3aed 0%, #2563eb 35%, #0891b2 65%, #059669 100%);
+      --grad2: linear-gradient(135deg, #f0f9ff 0%, #faf5ff 50%, #f0fdf4 100%);
+      --dark: #0a0a0f;
+      --card-bg: rgba(255,255,255,0.05);
+      --card-border: rgba(255,255,255,0.12);
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --radius: 16px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    /* ── CANVAS PARTICLES ─────────────────────────── */
+    #canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.4;
+    }
+
+    /* ── NAV ─────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(10,10,15,0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .nav-logo {
+      font-weight: 900;
+      font-size: 1.2rem;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+    .nav-links { display: flex; gap: 1.5rem; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .btn-nav {
+      background: var(--grad);
+      color: #fff !important;
+      padding: 0.4rem 1.1rem;
+      border-radius: 50px;
+      font-size: 0.85rem !important;
+    }
+
+    /* ── HERO ────────────────────────────────────── */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: rgba(124,58,237,0.15);
+      border: 1px solid rgba(124,58,237,0.4);
+      color: #a78bfa;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.35rem 1rem;
+      border-radius: 50px;
+      margin-bottom: 1.5rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .hero h1 {
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -2px;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2.5vw, 1.3rem);
+      color: var(--muted);
+      max-width: 600px;
+      line-height: 1.7;
+      margin-bottom: 2.5rem;
+    }
+    .hero-sub span {
+      color: #a78bfa;
+      font-weight: 600;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+    .btn-primary {
+      background: var(--grad);
+      color: #fff;
+      border: none;
+      padding: 0.85rem 2rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 30px rgba(124,58,237,0.4);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 50px rgba(124,58,237,0.6);
+    }
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 0.85rem 2rem;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.2s;
+    }
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.3);
+    }
+    .stats-row {
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .stat {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .stat-num {
+      font-size: 2rem;
+      font-weight: 900;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* ── SECTION ─────────────────────────────────── */
+    section {
+      position: relative;
+      z-index: 1;
+      padding: 5rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 900;
+      letter-spacing: -1px;
+      color: #fff;
+      margin-bottom: 0.75rem;
+    }
+    .section-desc {
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 580px;
+      line-height: 1.7;
+      margin-bottom: 3rem;
+    }
+
+    /* ── SKILL CARDS ─────────────────────────────── */
+    #skills { padding-top: 2rem; }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 1.5rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 1.75rem;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--card-grad, var(--grad));
+      opacity: 0;
+      transition: opacity 0.3s;
+      z-index: 0;
+    }
+    .card:hover { transform: translateY(-6px); }
+    .card:hover::before { opacity: 0.05; }
+    .card > * { position: relative; z-index: 1; }
+    .card-icon {
+      width: 52px; height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+    .card-tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 0.2rem 0.7rem;
+      border-radius: 50px;
+      margin-bottom: 0.75rem;
+    }
+    .card h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.5rem;
+      letter-spacing: -0.3px;
+    }
+    .card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.65;
+      margin-bottom: 1.25rem;
+    }
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .card-lang {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .lang-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+    }
+    .btn-card {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #a78bfa;
+      background: rgba(124,58,237,0.12);
+      border: 1px solid rgba(124,58,237,0.3);
+      border-radius: 50px;
+      padding: 0.35rem 1rem;
+      cursor: pointer;
+      font-family: 'Outfit', sans-serif;
+      transition: all 0.2s;
+    }
+    .btn-card:hover {
+      background: rgba(124,58,237,0.25);
+    }
+
+    /* Card color variants */
+    .card.c1 { --card-grad: linear-gradient(135deg,#7c3aed,#4c1d95); }
+    .card.c1 .card-icon { background: rgba(124,58,237,0.2); }
+    .card.c1 .card-tag { background: rgba(124,58,237,0.15); color: #a78bfa; }
+    .card.c1:hover { border-color: rgba(124,58,237,0.5); box-shadow: 0 20px 60px rgba(124,58,237,0.2); }
+
+    .card.c2 { --card-grad: linear-gradient(135deg,#2563eb,#1e40af); }
+    .card.c2 .card-icon { background: rgba(37,99,235,0.2); }
+    .card.c2 .card-tag { background: rgba(37,99,235,0.15); color: #60a5fa; }
+    .card.c2:hover { border-color: rgba(37,99,235,0.5); box-shadow: 0 20px 60px rgba(37,99,235,0.2); }
+    .card.c2 .btn-card { color: #60a5fa; background: rgba(37,99,235,0.12); border-color: rgba(37,99,235,0.3); }
+
+    .card.c3 { --card-grad: linear-gradient(135deg,#0891b2,#164e63); }
+    .card.c3 .card-icon { background: rgba(8,145,178,0.2); }
+    .card.c3 .card-tag { background: rgba(8,145,178,0.15); color: #22d3ee; }
+    .card.c3:hover { border-color: rgba(8,145,178,0.5); box-shadow: 0 20px 60px rgba(8,145,178,0.2); }
+    .card.c3 .btn-card { color: #22d3ee; background: rgba(8,145,178,0.12); border-color: rgba(8,145,178,0.3); }
+
+    .card.c4 { --card-grad: linear-gradient(135deg,#059669,#064e3b); }
+    .card.c4 .card-icon { background: rgba(5,150,105,0.2); }
+    .card.c4 .card-tag { background: rgba(5,150,105,0.15); color: #34d399; }
+    .card.c4:hover { border-color: rgba(5,150,105,0.5); box-shadow: 0 20px 60px rgba(5,150,105,0.2); }
+    .card.c4 .btn-card { color: #34d399; background: rgba(5,150,105,0.12); border-color: rgba(5,150,105,0.3); }
+
+    .card.c5 { --card-grad: linear-gradient(135deg,#d97706,#78350f); }
+    .card.c5 .card-icon { background: rgba(217,119,6,0.2); }
+    .card.c5 .card-tag { background: rgba(217,119,6,0.15); color: #fbbf24; }
+    .card.c5:hover { border-color: rgba(217,119,6,0.5); box-shadow: 0 20px 60px rgba(217,119,6,0.2); }
+    .card.c5 .btn-card { color: #fbbf24; background: rgba(217,119,6,0.12); border-color: rgba(217,119,6,0.3); }
+
+    .card.c6 { --card-grad: linear-gradient(135deg,#dc2626,#7f1d1d); }
+    .card.c6 .card-icon { background: rgba(220,38,38,0.2); }
+    .card.c6 .card-tag { background: rgba(220,38,38,0.15); color: #f87171; }
+    .card.c6:hover { border-color: rgba(220,38,38,0.5); box-shadow: 0 20px 60px rgba(220,38,38,0.2); }
+    .card.c6 .btn-card { color: #f87171; background: rgba(220,38,38,0.12); border-color: rgba(220,38,38,0.3); }
+
+    /* ── HOW TO USE ──────────────────────────────── */
+    #howto { border-top: 1px solid rgba(255,255,255,0.06); }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+    .step-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+    }
+    .step-num {
+      font-size: 2.5rem;
+      font-weight: 900;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-family: 'JetBrains Mono', monospace;
+      line-height: 1;
+      margin-bottom: 0.75rem;
+    }
+    .step-card h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 0.5rem;
+    }
+    .step-card p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+    .code-block {
+      background: rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: #86efac;
+      margin-top: 0.75rem;
+      overflow-x: auto;
+    }
+
+    /* ── MODAL ───────────────────────────────────── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(10px);
+      z-index: 999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+    .modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal {
+      background: #13131a;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 2rem;
+      max-width: 540px;
+      width: 100%;
+      transform: translateY(20px) scale(0.97);
+      transition: transform 0.3s;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .modal-overlay.open .modal {
+      transform: translateY(0) scale(1);
+    }
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+    }
+    .modal-icon {
+      width: 56px; height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+    }
+    .modal-close {
+      background: rgba(255,255,255,0.08);
+      border: none;
+      color: var(--muted);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
+    .modal h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+    .modal-repo {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      margin-bottom: 1rem;
+    }
+    .modal-desc {
+      font-size: 0.95rem;
+      color: var(--muted);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .modal-features h4 {
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #a78bfa;
+      margin-bottom: 0.75rem;
+    }
+    .feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .feature-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.9rem;
+      color: var(--text);
+    }
+    .feature-list li::before {
+      content: '✦';
+      font-size: 0.7rem;
+      color: #a78bfa;
+      flex-shrink: 0;
+    }
+    .modal-btns {
+      display: flex;
+      gap: 0.75rem;
+      flex-wrap: wrap;
+    }
+    .btn-modal-primary {
+      background: var(--grad);
+      color: #fff;
+      border: none;
+      padding: 0.65rem 1.5rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: transform 0.2s;
+    }
+    .btn-modal-primary:hover { transform: translateY(-1px); }
+    .btn-modal-sec {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 0.65rem 1.5rem;
+      border-radius: 50px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-family: 'Outfit', sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: all 0.2s;
+    }
+    .btn-modal-sec:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
+
+    /* ── FOOTER ──────────────────────────────────── */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 2.5rem 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    footer a {
+      color: #a78bfa;
+      text-decoration: none;
+    }
+    footer a:hover { text-decoration: underline; }
+    .footer-logo {
+      font-size: 1.4rem;
+      font-weight: 900;
+      background: var(--grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── RESPONSIVE ──────────────────────────────── */
+    @media (max-width: 640px) {
+      .nav-links { display: none; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ── ANIMATIONS ──────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s ease forwards; }
+    .fade-up:nth-child(1) { animation-delay: 0.1s; }
+    .fade-up:nth-child(2) { animation-delay: 0.2s; }
+    .fade-up:nth-child(3) { animation-delay: 0.3s; }
+    .fade-up:nth-child(4) { animation-delay: 0.35s; }
+    .fade-up:nth-child(5) { animation-delay: 0.4s; }
+    .fade-up:nth-child(6) { animation-delay: 0.45s; }
+
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 0 30px rgba(124,58,237,0.3); }
+      50% { box-shadow: 0 0 60px rgba(37,99,235,0.5); }
+    }
+    .btn-primary { animation: pulse-glow 3s infinite; }
+  </style>
+</head>
+<body>
+
+<canvas id="canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">⚒ edu-skill-forge</div>
+  <div class="nav-links">
+    <a href="#skills">Skills</a>
+    <a href="#howto">Cara Pakai</a>
+    <a href="https://github.com/mariofahmi/edu-skill-forge" target="_blank" class="btn-nav">⭐ GitHub</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">🚀 Antigravity AI · Open Source · UNIROW OBE 2026</div>
+  <h1>edu-skill-forge</h1>
+  <p class="hero-sub">
+    Koleksi <span>6 AI Skill resmi</span> untuk Antigravity & Agentic AI —
+    otomatisasi dokumen akademik dosen UNIROW berbasis
+    <span>Outcome-Based Education (OBE)</span>.
+  </p>
+  <div class="hero-btns">
+    <a href="https://github.com/mariofahmi/edu-skill-forge" target="_blank" class="btn-primary">
+      ⭐ Star di GitHub
+    </a>
+    <a href="#skills" class="btn-secondary">
+      📦 Lihat 6 Skills ↓
+    </a>
+  </div>
+  <div class="stats-row">
+    <div class="stat">
+      <span class="stat-num">6</span>
+      <span class="stat-label">Skills</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">2</span>
+      <span class="stat-label">Bahasa</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">MIT</span>
+      <span class="stat-label">License</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">OBE</span>
+      <span class="stat-label">Standard</span>
+    </div>
+  </div>
+</div>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="section-label">📦 Skill Library</div>
+  <h2 class="section-title">6 Skills Siap Pakai</h2>
+  <p class="section-desc">Klik kartu untuk melihat detail, fitur, dan cara pakai tiap skill.</p>
+  <div class="cards-grid">
+
+    <div class="card c1 fade-up" onclick="openModal('jurnal')">
+      <div class="card-icon">📔</div>
+      <div class="card-tag">Jurnal Perkuliahan</div>
+      <h3>Jurnal Perkuliahan</h3>
+      <p>Generator otomatis Jurnal Perkuliahan resmi UNIROW FKIP dengan kop 3-kolom, tabel 6 kolom, dan lembar pengesahan.</p>
+      <div class="card-footer">
+        <div class="card-lang">
+          <div class="lang-dot" style="background:#e34c26"></div>HTML
+        </div>
+        <button class="btn-card">Lihat Detail →</button>
+      </div>
+    </div>
+
+    <div class="card c2 fade-up" onclick="openModal('rps')">
+      <div class="card-icon">📋</div>
+      <div class="card-tag">RPS OBE</div>
+      <h3>RPS — Rencana Pembelajaran Semester</h3>
+      <p>Susun, isi, dan format dokumen RPS sesuai standar resmi UNIROW OBE 2026 secara otomatis lengkap dengan 16 minggu pertemuan.</p>
+      <div class="card-footer">
+        <div class="card-lang">
+          <div class="lang-dot" style="background:#e34c26"></div>HTML
+        </div>
+        <button class="btn-card">Lihat Detail →</button>
+      </div>
+    </div>
+
+    <div class="card c3 fade-up" onclick="openModal('uts')">
+      <div class="card-icon">📝</div>
+      <div class="card-tag">Soal UTS</div>
+      <h3>Soal UTS Resmi UNIROW</h3>
+      <p>Generator naskah Soal Ujian Tengah Semester ber-KOP resmi UNIROW FKIP dengan logo, tabel identitas, dan soal Taksonomi Bloom.</p>
+      <div class="card-footer">
+        <div class="card-lang">
+          <div class="lang-dot" style="background:#e34c26"></div>HTML
+        </div>
+        <button class="btn-card">Lihat Detail →</button>
+      </div>
+    </div>
+
+    <div class="card c4 fade-up" onclick="openModal('kontrak')">
+      <div class="card-icon">🤝</div>
+      <div class="card-tag">Kontrak Kuliah</div>
+      <h3>Kontrak Perkuliahan OBE</h3>
+      <p>Otomatis menyusun Kontrak Kuliah resmi dari dokumen RPS — lengkap dengan komponen penilaian, tata tertib, dan tanda tangan.</p>
+      <div class="card-footer">
+        <div class="card-lang">
+          <div class="lang-dot" style="background:#e34c26"></div>HTML
+        </div>
+        <button class="btn-card">Lihat Detail →</button>
+      </div>
+    </div>
+
+    <div class="card c5 fade-up" onclick="openModal('uas')">
+      <div class="card-icon">📄</div>
+      <div class="card-tag">Soal UAS</div>
+      <h3>Soal UAS Resmi UNIROW</h3>
+      <p>Generator naskah Soal Ujian Akhir Semester ber-KOP resmi, materi pasca-UTS (pertemuan 9–16) berbasis Taksonomi Bloom C3–C6.</p>
+      <div class="card-footer">
+        <div class="card-lang">
+          <div class="lang-dot" style="background:#e34c26"></div>HTML
+        </div>
+        <button class="btn-card">Lihat Detail →</button>
+      </div>
+    </div>
+
+    <div class="card c6 fade-up" onclick="openModal('rubrik')">
+      <div class="card-icon">📊</div>
+      <div class="card-tag">Rubrik Penilaian</div>
+      <h3>Rubrik Penilaian Analitik OBE</h3>
+      <p>Generator Rubrik Penilaian 4 pita (Sangat Baik, Baik, Cukup, Kurang) berbasis Sub-CPMK dari RPS OBE 2026 dalam format .docx & .md.</p>
+      <div class="card-footer">
+        <div class="card-lang">
+          <div class="lang-dot" style="background:#3572A5"></div>Python
+        </div>
+        <button class="btn-card">Lihat Detail →</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW TO USE -->
+<section id="howto">
+  <div class="section-label">⚡ Cara Pakai</div>
+  <h2 class="section-title">Setup dalam 3 Langkah</h2>
+  <p class="section-desc">Integrasikan ke workspace Antigravity AI Anda dengan mudah.</p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-num">01</div>
+      <h4>Clone Repo</h4>
+      <p>Clone monorepo ke folder <code>.agents/skills/</code> di workspace Anda.</p>
+      <div class="code-block">git clone https://github.com/<br>mariofahmi/edu-skill-forge.git<br>.agents/skills/esf</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">02</div>
+      <h4>Aktifkan Skill</h4>
+      <p>Antigravity otomatis membaca SKILL.md dari setiap subfolder di <code>skills/</code>.</p>
+      <div class="code-block"># Tidak perlu konfigurasi tambahan!<br># Cukup ketik trigger di chat:<br>/jurnal, /rps, /uts, /uas ...</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">03</div>
+      <h4>Install Dependensi</h4>
+      <p>Pasang library Python yang dibutuhkan untuk generate file .docx.</p>
+      <div class="code-block">pip install python-docx<br>pip install python-docx-template</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">04</div>
+      <h4>Gunakan!</h4>
+      <p>Ketik trigger di Antigravity chat dan AI langsung menghasilkan dokumen resmi.</p>
+      <div class="code-block"># Contoh:<br>"buatkan jurnal perkuliahan<br> dari RPS ini @rps.docx"</div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">⚒ edu-skill-forge</div>
+  <p>
+    Dibuat oleh <a href="https://github.com/mariofahmi" target="_blank">@mariofahmi</a> ·
+    UNIROW Tuban · OBE 2026 ·
+    <a href="https://github.com/mariofahmi/edu-skill-forge/blob/main/LICENSE" target="_blank">MIT License</a>
+  </p>
+  <p style="margin-top:0.4rem;font-size:0.8rem;opacity:0.5;">
+    Powered by Google Antigravity AI · Agentic AI Skills Platform
+  </p>
+</footer>
+
+<!-- MODAL OVERLAY -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+  <div class="modal" id="modalBox">
+    <div class="modal-header">
+      <div class="modal-icon" id="mIcon"></div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <h2 id="mTitle"></h2>
+    <div class="modal-repo" id="mRepo"></div>
+    <p class="modal-desc" id="mDesc"></p>
+    <div class="modal-features">
+      <h4>✦ Fitur Utama</h4>
+      <ul class="feature-list" id="mFeatures"></ul>
+    </div>
+    <div class="modal-btns">
+      <a id="mBtnGithub" href="#" target="_blank" class="btn-modal-primary">⭐ Buka di GitHub</a>
+      <button class="btn-modal-sec" onclick="closeModal()">✕ Tutup</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── DATA SKILLS ─────────────────────────────────── */
+const skills = {
+  jurnal: {
+    icon: '📔', color: 'rgba(124,58,237,0.2)',
+    title: 'Jurnal Perkuliahan',
+    repo: 'mariofahmi/edu-skill-forge · skills/jurnal-perkuliahan/',
+    github: 'https://github.com/mariofahmi/edu-skill-forge',
+    desc: 'Generator otomatis dokumen Jurnal Perkuliahan resmi UNIROW FKIP. Cukup upload RPS atau Kontrak Kuliah, AI langsung membuat jurnal lengkap tanpa input manual.',
+    features: [
+      'Kop UNIROW 3-kolom simetris berlogo resmi',
+      'Tabel 6 kolom: No | Hari | Tanggal | Jam | Makul | Pokok Bahasan',
+      'Otomatis baca RPS untuk isi 16 pertemuan',
+      'Kolom tanggal & hari dikosongkan (isi manual)',
+      'Lembar tanda tangan pengesahan',
+      'Output: .docx + .md dalam 1 halaman utuh'
+    ]
+  },
+  rps: {
+    icon: '📋', color: 'rgba(37,99,235,0.2)',
+    title: 'RPS — Rencana Pembelajaran Semester',
+    repo: 'mariofahmi/edu-skill-forge · skills/rps/',
+    github: 'https://github.com/mariofahmi/edu-skill-forge',
+    desc: 'Susun, isi, validasi, dan format dokumen RPS sesuai standar resmi UNIROW OBE 2026. Lengkap dari CPL/CPMK hingga rencana mingguan 16 pertemuan.',
+    features: [
+      'Format resmi UNIROW OBE 2026',
+      'CPL, CPMK, Sub-CPMK terstruktur',
+      'Matriks korelasi CPL × Sub-CPMK',
+      'Rencana pembelajaran 16 minggu (UTS Mg-8, UAS Mg-16)',
+      'Rubrik penilaian holistik & konversi nilai akhir',
+      'Output: .docx sesuai template resmi kampus'
+    ]
+  },
+  uts: {
+    icon: '📝', color: 'rgba(8,145,178,0.2)',
+    title: 'Soal UTS Resmi UNIROW',
+    repo: 'mariofahmi/edu-skill-forge · skills/uts/',
+    github: 'https://github.com/mariofahmi/edu-skill-forge',
+    desc: 'Generator naskah Soal Ujian Tengah Semester ber-KOP resmi dan logo UNIROW FKIP. Bisa menyusun soal dari RPS atau format soal yang sudah ada.',
+    features: [
+      'KOP resmi UNIROW FKIP + logo kampus',
+      'Tabel identitas: Prodi, Dosen, MK, Waktu, Angkatan',
+      'Soal berbasis Taksonomi Bloom (C1-C6)',
+      'Baca otomatis dari RPS materi minggu 1–7',
+      'Format esai maupun pilihan ganda',
+      'Output: .docx naskah siap cetak'
+    ]
+  },
+  kontrak: {
+    icon: '🤝', color: 'rgba(5,150,105,0.2)',
+    title: 'Kontrak Perkuliahan OBE',
+    repo: 'mariofahmi/edu-skill-forge · skills/kontrak-kuliah/',
+    github: 'https://github.com/mariofahmi/edu-skill-forge',
+    desc: 'Otomatis menyusun Kontrak Kuliah resmi dari dokumen RPS. Menghasilkan kontrak perkuliahan lengkap selaras presisi dengan RPS OBE yang ada.',
+    features: [
+      'KOP resmi UNIROW FKIP',
+      'Identitas MK, dosen, SKS, semester otomatis',
+      'Komponen & bobot penilaian dari RPS',
+      'Tata tertib dan aturan perkuliahan',
+      'Lembar tanda tangan mahasiswa & dosen',
+      'Output: .docx + .md siap pakai'
+    ]
+  },
+  uas: {
+    icon: '📄', color: 'rgba(217,119,6,0.2)',
+    title: 'Soal UAS Resmi UNIROW',
+    repo: 'mariofahmi/edu-skill-forge · skills/uas/',
+    github: 'https://github.com/mariofahmi/edu-skill-forge',
+    desc: 'Generator naskah Soal Ujian Akhir Semester ber-KOP resmi UNIROW FKIP. Materi pasca-UTS (pertemuan 9–16) dengan Taksonomi Bloom level tinggi (C3–C6).',
+    features: [
+      'KOP resmi UNIROW FKIP + logo kampus',
+      'Tabel identitas: Prodi, Dosen, MK, Sifat, Tanggal',
+      'Soal Taksonomi Bloom C3–C6 (analisis–evaluasi)',
+      'Baca otomatis dari RPS materi minggu 9–16',
+      'Format esai maupun pilihan ganda',
+      'Output: .docx naskah siap cetak'
+    ]
+  },
+  rubrik: {
+    icon: '📊', color: 'rgba(220,38,38,0.2)',
+    title: 'Rubrik Penilaian Analitik OBE',
+    repo: 'mariofahmi/edu-skill-forge · skills/rubrik-penilaian/',
+    github: 'https://github.com/mariofahmi/edu-skill-forge',
+    desc: 'Generator otomatis Rubrik Penilaian analitik 4 pita berbasis Sub-CPMK dari RPS OBE 2026. Menghasilkan rubrik dan pedoman nilai akhir sesuai standar UNIROW.',
+    features: [
+      '4 pita penilaian: Sangat Baik, Baik, Cukup, Kurang',
+      'Diambil langsung dari Sub-CPMK RPS',
+      'Pedoman konversi nilai akhir resmi UNIROW',
+      'Rubrik analitik per komponen penilaian',
+      'Deskriptor kriteria yang presisi dan terukur',
+      'Output: .docx + .md siap lampir RPS'
+    ]
+  }
+};
+
+/* ── MODAL ───────────────────────────────────────── */
+function openModal(id) {
+  const s = skills[id];
+  document.getElementById('mIcon').textContent = s.icon;
+  document.getElementById('mIcon').style.background = s.color;
+  document.getElementById('mTitle').textContent = s.title;
+  document.getElementById('mRepo').textContent = '📁 ' + s.repo;
+  document.getElementById('mDesc').textContent = s.desc;
+  document.getElementById('mBtnGithub').href = s.github;
+  const ul = document.getElementById('mFeatures');
+  ul.innerHTML = s.features.map(f => `<li>${f}</li>`).join('');
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeModalOutside(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModal();
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+/* ── CANVAS PARTICLES ────────────────────────────── */
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
+const colors = ['#7c3aed','#2563eb','#0891b2','#059669','#d97706'];
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+function createParticle() {
+  return {
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    r: Math.random() * 2 + 0.5,
+    vx: (Math.random() - 0.5) * 0.4,
+    vy: (Math.random() - 0.5) * 0.4,
+    color: colors[Math.floor(Math.random() * colors.length)],
+    alpha: Math.random() * 0.5 + 0.2
+  };
+}
+
+for (let i = 0; i < 80; i++) particles.push(createParticle());
+
+function animateParticles() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = p.color;
+    ctx.globalAlpha = p.alpha;
+    ctx.fill();
+  });
+  // Draw connections
+  ctx.globalAlpha = 0.06;
+  for (let i = 0; i < particles.length; i++) {
+    for (let j = i+1; j < particles.length; j++) {
+      const dx = particles[i].x - particles[j].x;
+      const dy = particles[i].y - particles[j].y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.strokeStyle = particles[i].color;
+        ctx.lineWidth = 0.5;
+        ctx.moveTo(particles[i].x, particles[i].y);
+        ctx.lineTo(particles[j].x, particles[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  ctx.globalAlpha = 1;
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+</script>
+</body>
+</html>
