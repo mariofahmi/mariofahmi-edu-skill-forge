@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>edu-skill-forge — Pilih Skill</title>
   <meta name="description" content="Menu 6 AI Skill resmi UNIROW OBE 2026 — edu-skill-forge" />
+  <link rel="icon" type="image/svg+xml" href="logo.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
   <style>
@@ -75,14 +76,15 @@
       text-decoration: none;
     }
     .logo-icon {
-      width: 32px; height: 32px;
+      width: 36px; height: 36px;
       border-radius: 8px;
-      background: var(--grad-main);
+      overflow: hidden;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1rem;
       flex-shrink: 0;
+      background: #fff;
+      padding: 3px;
     }
     .logo-text {
       font-size: 1rem;
@@ -387,7 +389,17 @@
   <!-- HEADER -->
   <header>
     <a href="index.html" class="logo">
-      <div class="logo-icon">⚒</div>
+      <div class="logo-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 110" width="30" height="30" fill="none">
+          <polygon points="4,8 22,8 22,102 4,102" fill="#7B0000"/>
+          <polygon points="22,8 42,8 64,54 44,54" fill="#7B0000"/>
+          <polygon points="44,54 64,54 82,8 62,8" fill="#7B0000"/>
+          <polygon points="62,8 80,8 80,102 62,102" fill="#7B0000"/>
+          <polygon points="62,8 128,8 128,26 62,26" fill="#7B0000"/>
+          <polygon points="62,44 114,44 114,60 62,60" fill="#7B0000"/>
+          <polygon points="34,54 54,54 72,20 52,20" fill="#C5A028"/>
+        </svg>
+      </div>
       <span class="logo-text">edu-skill-forge</span>
     </a>
     <div class="header-right">

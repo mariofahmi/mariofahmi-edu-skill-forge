@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 110" fill="none">
+  <!-- M: left vertical bar -->
+  <polygon points="4,8 22,8 22,102 4,102" fill="#7B0000"/>
+  <!-- M: left diagonal (top-left to center-bottom) -->
+  <polygon points="22,8 42,8 64,54 44,54" fill="#7B0000"/>
+  <!-- M: right diagonal (center-bottom to top-right) -->
+  <polygon points="44,54 64,54 82,8 62,8" fill="#7B0000"/>
+  <!-- M+F shared vertical bar -->
+  <polygon points="62,8 80,8 80,102 62,102" fill="#7B0000"/>
+  <!-- F: top horizontal bar -->
+  <polygon points="62,8 128,8 128,26 62,26" fill="#7B0000"/>
+  <!-- F: middle horizontal bar -->
+  <polygon points="62,44 114,44 114,60 62,60" fill="#7B0000"/>
+  <!-- Gold diagonal accent -->
+  <polygon points="34,54 54,54 72,20 52,20" fill="#C5A028"/>
+</svg>
