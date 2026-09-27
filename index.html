@@ -630,7 +630,7 @@
   <div class="nav-links">
     <a href="#skills">Skills</a>
     <a href="#howto">Cara Pakai</a>
-    <a href="https://github.com/mariofahmi/edu-skill-forge" target="_blank" class="btn-nav">⭐ GitHub</a>
+    <a href="https://github.com/mariofahmi/mariofahmi-edu-skill-forge" target="_blank" class="btn-nav">⭐ GitHub</a>
   </div>
 </nav>
 
@@ -644,7 +644,7 @@
     <span>Outcome-Based Education (OBE)</span>.
   </p>
   <div class="hero-btns">
-    <a href="https://github.com/mariofahmi/edu-skill-forge" target="_blank" class="btn-primary">
+    <a href="https://github.com/mariofahmi/mariofahmi-edu-skill-forge" target="_blank" class="btn-primary">
       ⭐ Star di GitHub
     </a>
     <a href="#skills" class="btn-secondary">
@@ -820,7 +820,8 @@
       <ul class="feature-list" id="mFeatures"></ul>
     </div>
     <div class="modal-btns">
-      <a id="mBtnGithub" href="#" target="_blank" class="btn-modal-primary">⭐ Buka di GitHub</a>
+      <a id="mBtnLive" href="#" target="_blank" class="btn-modal-primary">🚀 Buka Skill App</a>
+      <a id="mBtnGithub" href="#" target="_blank" class="btn-modal-sec">⭐ GitHub</a>
       <button class="btn-modal-sec" onclick="closeModal()">✕ Tutup</button>
     </div>
   </div>
@@ -828,12 +829,16 @@
 
 <script>
 /* ── DATA SKILLS ─────────────────────────────────── */
+const BASE = 'https://mariofahmi.github.io/mariofahmi-edu-skill-forge/';
+const REPO = 'https://github.com/mariofahmi/mariofahmi-edu-skill-forge';
+
 const skills = {
   jurnal: {
     icon: '📔', color: 'rgba(124,58,237,0.2)',
     title: 'Jurnal Perkuliahan',
-    repo: 'mariofahmi/edu-skill-forge · skills/jurnal-perkuliahan/',
-    github: 'https://github.com/mariofahmi/edu-skill-forge',
+    repo: 'mariofahmi-edu-skill-forge · skills/jurnal-perkuliahan/',
+    live: BASE + 'skills/jurnal-perkuliahan/',
+    github: REPO,
     desc: 'Generator otomatis dokumen Jurnal Perkuliahan resmi UNIROW FKIP. Cukup upload RPS atau Kontrak Kuliah, AI langsung membuat jurnal lengkap tanpa input manual.',
     features: [
       'Kop UNIROW 3-kolom simetris berlogo resmi',
@@ -847,8 +852,9 @@ const skills = {
   rps: {
     icon: '📋', color: 'rgba(37,99,235,0.2)',
     title: 'RPS — Rencana Pembelajaran Semester',
-    repo: 'mariofahmi/edu-skill-forge · skills/rps/',
-    github: 'https://github.com/mariofahmi/edu-skill-forge',
+    repo: 'mariofahmi-edu-skill-forge · skills/rps/',
+    live: BASE + 'skills/rps/',
+    github: REPO,
     desc: 'Susun, isi, validasi, dan format dokumen RPS sesuai standar resmi UNIROW OBE 2026. Lengkap dari CPL/CPMK hingga rencana mingguan 16 pertemuan.',
     features: [
       'Format resmi UNIROW OBE 2026',
@@ -862,8 +868,9 @@ const skills = {
   uts: {
     icon: '📝', color: 'rgba(8,145,178,0.2)',
     title: 'Soal UTS Resmi UNIROW',
-    repo: 'mariofahmi/edu-skill-forge · skills/uts/',
-    github: 'https://github.com/mariofahmi/edu-skill-forge',
+    repo: 'mariofahmi-edu-skill-forge · skills/uts/',
+    live: BASE + 'skills/uts/',
+    github: REPO,
     desc: 'Generator naskah Soal Ujian Tengah Semester ber-KOP resmi dan logo UNIROW FKIP. Bisa menyusun soal dari RPS atau format soal yang sudah ada.',
     features: [
       'KOP resmi UNIROW FKIP + logo kampus',
@@ -877,8 +884,9 @@ const skills = {
   kontrak: {
     icon: '🤝', color: 'rgba(5,150,105,0.2)',
     title: 'Kontrak Perkuliahan OBE',
-    repo: 'mariofahmi/edu-skill-forge · skills/kontrak-kuliah/',
-    github: 'https://github.com/mariofahmi/edu-skill-forge',
+    repo: 'mariofahmi-edu-skill-forge · skills/kontrak-kuliah/',
+    live: BASE + 'skills/kontrak-kuliah/',
+    github: REPO,
     desc: 'Otomatis menyusun Kontrak Kuliah resmi dari dokumen RPS. Menghasilkan kontrak perkuliahan lengkap selaras presisi dengan RPS OBE yang ada.',
     features: [
       'KOP resmi UNIROW FKIP',
@@ -892,8 +900,9 @@ const skills = {
   uas: {
     icon: '📄', color: 'rgba(217,119,6,0.2)',
     title: 'Soal UAS Resmi UNIROW',
-    repo: 'mariofahmi/edu-skill-forge · skills/uas/',
-    github: 'https://github.com/mariofahmi/edu-skill-forge',
+    repo: 'mariofahmi-edu-skill-forge · skills/uas/',
+    live: BASE + 'skills/uas/',
+    github: REPO,
     desc: 'Generator naskah Soal Ujian Akhir Semester ber-KOP resmi UNIROW FKIP. Materi pasca-UTS (pertemuan 9–16) dengan Taksonomi Bloom level tinggi (C3–C6).',
     features: [
       'KOP resmi UNIROW FKIP + logo kampus',
@@ -929,6 +938,7 @@ function openModal(id) {
   document.getElementById('mTitle').textContent = s.title;
   document.getElementById('mRepo').textContent = '📁 ' + s.repo;
   document.getElementById('mDesc').textContent = s.desc;
+  document.getElementById('mBtnLive').href = s.live;
   document.getElementById('mBtnGithub').href = s.github;
   const ul = document.getElementById('mFeatures');
   ul.innerHTML = s.features.map(f => `<li>${f}</li>`).join('');
