@@ -803,9 +803,9 @@
     <div class="nav-actions">
       <!-- Accessibility Font Scaling -->
       <div class="acc-btn-group" title="Ubah Ukuran Tulisan">
-        <button class="btn-acc" onclick="setFontScale(0.92)" title="Tulisan Kecil">A-</button>
-        <button class="btn-acc active" id="btnNorm" onclick="setFontScale(1)" title="Tulisan Normal">A</button>
-        <button class="btn-acc" onclick="setFontScale(1.08)" title="Tulisan Besar">A+</button>
+        <button class="btn-acc" onclick="setFontScale(0.92, this)" title="Tulisan Kecil">A-</button>
+        <button class="btn-acc active" id="btnNorm" onclick="setFontScale(1, this)" title="Tulisan Normal">A</button>
+        <button class="btn-acc" onclick="setFontScale(1.08, this)" title="Tulisan Besar">A+</button>
       </div>
 
       <!-- Theme Switcher -->
@@ -1233,10 +1233,10 @@
     }
 
     /* Font Scale Accessibility */
-    function setFontScale(scale) {
+    function setFontScale(scale, btnEl) {
       document.documentElement.style.setProperty('--font-scale', scale);
       document.querySelectorAll('.btn-acc').forEach(btn => btn.classList.remove('active'));
-      event.target.classList.add('active');
+      if (btnEl) btnEl.classList.add('active');
     }
 
     /* Search & Filter Logic */
