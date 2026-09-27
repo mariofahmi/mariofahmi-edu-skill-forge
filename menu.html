@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>edu-skill-forge — Pilih Skill</title>
+  <meta name="description" content="Menu 6 AI Skill resmi UNIROW OBE 2026 — edu-skill-forge" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --dark: #06060f;
+      --grad-main: linear-gradient(135deg, #7c3aed, #2563eb, #0891b2, #059669);
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Outfit', sans-serif;
+      background: var(--dark);
+      color: #e2e8f0;
+      overflow: hidden;
+    }
+
+    /* ── BACKGROUND ─────────────────────────────── */
+    .bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .bg::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      top: -200px; left: -200px;
+      background: radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%);
+      animation: drift1 12s ease-in-out infinite alternate;
+    }
+    .bg::after {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      bottom: -150px; right: -100px;
+      background: radial-gradient(circle, rgba(8,145,178,0.12) 0%, transparent 70%);
+      animation: drift2 15s ease-in-out infinite alternate;
+    }
+    @keyframes drift1 { from { transform: translate(0,0); } to { transform: translate(80px, 60px); } }
+    @keyframes drift2 { from { transform: translate(0,0); } to { transform: translate(-60px, -40px); } }
+
+    /* ── LAYOUT ─────────────────────────────────── */
+    .page {
+      position: relative;
+      z-index: 1;
+      height: 100vh;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      padding: 0 1.5rem;
+      gap: 0;
+    }
+
+    /* ── HEADER ─────────────────────────────────── */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0 0.75rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+    }
+    .logo-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: var(--grad-main);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .logo-text {
+      font-size: 1rem;
+      font-weight: 800;
+      background: var(--grad-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.3px;
+    }
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .badge-obe {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #a78bfa;
+      background: rgba(124,58,237,0.12);
+      border: 1px solid rgba(124,58,237,0.25);
+      padding: 0.3rem 0.75rem;
+      border-radius: 50px;
+    }
+    .btn-gh {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #fff;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 0.35rem 0.9rem;
+      border-radius: 50px;
+      text-decoration: none;
+      font-family: 'Outfit', sans-serif;
+      transition: background 0.2s;
+    }
+    .btn-gh:hover { background: rgba(255,255,255,0.14); }
+
+    /* ── TITLE STRIP ────────────────────────────── */
+    .title-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 0 0.5rem;
+    }
+    .title-strip h1 {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      font-weight: 700;
+      color: #94a3b8;
+      letter-spacing: 0.02em;
+    }
+    .title-strip h1 span {
+      background: var(--grad-main);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .pill-count {
+      font-size: 0.72rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: #64748b;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      padding: 0.2rem 0.65rem;
+      border-radius: 50px;
+    }
+
+    /* ── GRID ───────────────────────────────────── */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 0.9rem;
+      padding: 0.25rem 0 0.75rem;
+    }
+
+    /* ── SKILL CARD ─────────────────────────────── */
+    .skill-card {
+      position: relative;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.03);
+      overflow: hidden;
+      cursor: pointer;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      padding: 1.25rem 1.4rem;
+      transition: transform 0.25s cubic-bezier(.34,1.56,.64,1),
+                  border-color 0.25s,
+                  box-shadow 0.25s;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+
+    /* animated gradient border on hover */
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 18px;
+      opacity: 0;
+      transition: opacity 0.3s;
+      background: var(--card-glow, rgba(255,255,255,0.05));
+      z-index: 0;
+    }
+    .skill-card:hover { transform: translateY(-5px) scale(1.02); }
+    .skill-card:hover::before { opacity: 1; }
+    .skill-card > * { position: relative; z-index: 1; }
+
+    /* color themes */
+    .sk1 { --card-glow: linear-gradient(135deg,rgba(124,58,237,.12),rgba(139,92,246,.08)); }
+    .sk1:hover { border-color: rgba(124,58,237,.5); box-shadow: 0 16px 48px rgba(124,58,237,.25), inset 0 1px 0 rgba(255,255,255,.06); }
+
+    .sk2 { --card-glow: linear-gradient(135deg,rgba(37,99,235,.12),rgba(59,130,246,.08)); }
+    .sk2:hover { border-color: rgba(37,99,235,.5); box-shadow: 0 16px 48px rgba(37,99,235,.25), inset 0 1px 0 rgba(255,255,255,.06); }
+
+    .sk3 { --card-glow: linear-gradient(135deg,rgba(8,145,178,.12),rgba(6,182,212,.08)); }
+    .sk3:hover { border-color: rgba(8,145,178,.5); box-shadow: 0 16px 48px rgba(8,145,178,.25), inset 0 1px 0 rgba(255,255,255,.06); }
+
+    .sk4 { --card-glow: linear-gradient(135deg,rgba(5,150,105,.12),rgba(16,185,129,.08)); }
+    .sk4:hover { border-color: rgba(5,150,105,.5); box-shadow: 0 16px 48px rgba(5,150,105,.25), inset 0 1px 0 rgba(255,255,255,.06); }
+
+    .sk5 { --card-glow: linear-gradient(135deg,rgba(217,119,6,.12),rgba(245,158,11,.08)); }
+    .sk5:hover { border-color: rgba(217,119,6,.5); box-shadow: 0 16px 48px rgba(217,119,6,.25), inset 0 1px 0 rgba(255,255,255,.06); }
+
+    .sk6 { --card-glow: linear-gradient(135deg,rgba(220,38,38,.12),rgba(239,68,68,.08)); }
+    .sk6:hover { border-color: rgba(220,38,38,.5); box-shadow: 0 16px 48px rgba(220,38,38,.25), inset 0 1px 0 rgba(255,255,255,.06); }
+
+    /* card internals */
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: auto;
+    }
+    .card-icon-wrap {
+      width: 46px; height: 46px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .sk1 .card-icon-wrap { background: rgba(124,58,237,.18); }
+    .sk2 .card-icon-wrap { background: rgba(37,99,235,.18); }
+    .sk3 .card-icon-wrap { background: rgba(8,145,178,.18); }
+    .sk4 .card-icon-wrap { background: rgba(5,150,105,.18); }
+    .sk5 .card-icon-wrap { background: rgba(217,119,6,.18); }
+    .sk6 .card-icon-wrap { background: rgba(220,38,38,.18); }
+
+    .card-num {
+      font-size: 0.68rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: rgba(255,255,255,0.2);
+      letter-spacing: 0.05em;
+    }
+
+    .card-body {
+      margin-top: 0.85rem;
+    }
+    .card-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 0.3rem;
+      display: block;
+    }
+    .sk1 .card-tag { color: #a78bfa; }
+    .sk2 .card-tag { color: #60a5fa; }
+    .sk3 .card-tag { color: #22d3ee; }
+    .sk4 .card-tag { color: #34d399; }
+    .sk5 .card-tag { color: #fbbf24; }
+    .sk6 .card-tag { color: #f87171; }
+
+    .card-title {
+      font-size: clamp(0.85rem, 1.4vw, 1.05rem);
+      font-weight: 800;
+      color: #fff;
+      line-height: 1.25;
+      letter-spacing: -0.2px;
+      margin-bottom: 0.4rem;
+    }
+    .card-desc {
+      font-size: 0.75rem;
+      color: #64748b;
+      line-height: 1.5;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 0.85rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .card-lang {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.7rem;
+      color: #475569;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .lang-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .card-arrow {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.2);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+    }
+    .skill-card:hover .card-arrow {
+      color: rgba(255,255,255,0.7);
+      transform: translateX(3px);
+    }
+
+    /* ── FOOTER BAR ─────────────────────────────── */
+    footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 0 0.85rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .footer-left {
+      font-size: 0.72rem;
+      color: #334155;
+    }
+    .footer-left a {
+      color: #475569;
+      text-decoration: none;
+    }
+    .footer-left a:hover { color: #94a3b8; }
+    .footer-stats {
+      display: flex;
+      gap: 1.25rem;
+    }
+    .fstat {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-size: 0.7rem;
+      color: #334155;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .fstat strong {
+      color: #64748b;
+    }
+
+    /* ── ANIMATIONS ─────────────────────────────── */
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .skill-card {
+      animation: fadeSlideUp 0.45s ease both;
+    }
+    .skill-card:nth-child(1) { animation-delay: 0.05s; }
+    .skill-card:nth-child(2) { animation-delay: 0.10s; }
+    .skill-card:nth-child(3) { animation-delay: 0.15s; }
+    .skill-card:nth-child(4) { animation-delay: 0.20s; }
+    .skill-card:nth-child(5) { animation-delay: 0.25s; }
+    .skill-card:nth-child(6) { animation-delay: 0.30s; }
+
+    /* ── RESPONSIVE ─────────────────────────────── */
+    @media (max-width: 900px) {
+      html, body { overflow: auto; }
+      .page { height: auto; }
+      .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(3, auto);
+      }
+    }
+    @media (max-width: 560px) {
+      .skills-grid { grid-template-columns: 1fr; }
+      .badge-obe { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="bg"></div>
+
+<div class="page">
+
+  <!-- HEADER -->
+  <header>
+    <a href="index.html" class="logo">
+      <div class="logo-icon">⚒</div>
+      <span class="logo-text">edu-skill-forge</span>
+    </a>
+    <div class="header-right">
+      <span class="badge-obe">🎓 UNIROW OBE 2026</span>
+      <a href="https://github.com/mariofahmi/mariofahmi-edu-skill-forge" target="_blank" class="btn-gh">
+        ⭐ GitHub
+      </a>
+    </div>
+  </header>
+
+  <!-- MAIN AREA -->
+  <main>
+    <!-- title strip -->
+    <div class="title-strip">
+      <h1>Pilih <span>Skill</span> yang ingin digunakan</h1>
+      <span class="pill-count">6 / 6 skills</span>
+    </div>
+
+    <!-- 6 skill cards -->
+    <div class="skills-grid">
+
+      <!-- 1. Jurnal Perkuliahan -->
+      <a href="skills/jurnal-perkuliahan/index.html" class="skill-card sk1">
+        <div class="card-top">
+          <div class="card-icon-wrap">📔</div>
+          <span class="card-num">01</span>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">Jurnal Perkuliahan</span>
+          <h2 class="card-title">Jurnal Perkuliahan</h2>
+          <p class="card-desc">Generator jurnal resmi UNIROW FKIP otomatis dari RPS — 16 pertemuan siap.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-lang">
+            <div class="lang-dot" style="background:#e34c26"></div>HTML
+          </div>
+          <span class="card-arrow">Buka <span>→</span></span>
+        </div>
+      </a>
+
+      <!-- 2. RPS -->
+      <a href="skills/rps/index.html" class="skill-card sk2">
+        <div class="card-top">
+          <div class="card-icon-wrap">📋</div>
+          <span class="card-num">02</span>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">RPS OBE</span>
+          <h2 class="card-title">Rencana Pembelajaran Semester</h2>
+          <p class="card-desc">Susun & export dokumen RPS presisi A4 Landscape sesuai standar UNIROW 2026.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-lang">
+            <div class="lang-dot" style="background:#e34c26"></div>HTML
+          </div>
+          <span class="card-arrow">Buka <span>→</span></span>
+        </div>
+      </a>
+
+      <!-- 3. UTS -->
+      <a href="skills/uts/index.html" class="skill-card sk3">
+        <div class="card-top">
+          <div class="card-icon-wrap">📝</div>
+          <span class="card-num">03</span>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">Soal UTS</span>
+          <h2 class="card-title">Soal Ujian Tengah Semester</h2>
+          <p class="card-desc">Naskah soal UTS ber-KOP resmi UNIROW FKIP — Taksonomi Bloom C1–C6.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-lang">
+            <div class="lang-dot" style="background:#e34c26"></div>HTML
+          </div>
+          <span class="card-arrow">Buka <span>→</span></span>
+        </div>
+      </a>
+
+      <!-- 4. Kontrak Kuliah -->
+      <a href="skills/kontrak-kuliah/index.html" class="skill-card sk4">
+        <div class="card-top">
+          <div class="card-icon-wrap">🤝</div>
+          <span class="card-num">04</span>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">Kontrak Kuliah</span>
+          <h2 class="card-title">Kontrak Perkuliahan OBE</h2>
+          <p class="card-desc">Otomatis susun kontrak kuliah resmi selaras presisi dengan dokumen RPS.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-lang">
+            <div class="lang-dot" style="background:#e34c26"></div>HTML
+          </div>
+          <span class="card-arrow">Buka <span>→</span></span>
+        </div>
+      </a>
+
+      <!-- 5. UAS -->
+      <a href="skills/uas/index.html" class="skill-card sk5">
+        <div class="card-top">
+          <div class="card-icon-wrap">📄</div>
+          <span class="card-num">05</span>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">Soal UAS</span>
+          <h2 class="card-title">Soal Ujian Akhir Semester</h2>
+          <p class="card-desc">Naskah soal UAS ber-KOP resmi — materi pasca-UTS, Bloom C3–C6.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-lang">
+            <div class="lang-dot" style="background:#e34c26"></div>HTML
+          </div>
+          <span class="card-arrow">Buka <span>→</span></span>
+        </div>
+      </a>
+
+      <!-- 6. Rubrik -->
+      <a href="skills/rubrik-penilaian/index.html" class="skill-card sk6">
+        <div class="card-top">
+          <div class="card-icon-wrap">📊</div>
+          <span class="card-num">06</span>
+        </div>
+        <div class="card-body">
+          <span class="card-tag">Rubrik Penilaian</span>
+          <h2 class="card-title">Rubrik Penilaian Analitik OBE</h2>
+          <p class="card-desc">Generator rubrik 4 pita berbasis Sub-CPMK — output .docx & .md instan.</p>
+        </div>
+        <div class="card-footer">
+          <div class="card-lang">
+            <div class="lang-dot" style="background:#3572A5"></div>Python
+          </div>
+          <span class="card-arrow">Buka <span>→</span></span>
+        </div>
+      </a>
+
+    </div><!-- /skills-grid -->
+  </main>
+
+  <!-- FOOTER BAR -->
+  <footer>
+    <span class="footer-left">
+      by <a href="https://github.com/mariofahmi" target="_blank">@mariofahmi</a>
+      · UNIROW Tuban · MIT License
+    </span>
+    <div class="footer-stats">
+      <span class="fstat"><strong>6</strong> Skills</span>
+      <span class="fstat"><strong>2</strong> Bahasa</span>
+      <span class="fstat"><strong>OBE</strong> 2026</span>
+    </div>
+  </footer>
+
+</div><!-- /page -->
+
+</body>
+</html>
