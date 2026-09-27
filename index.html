@@ -1,1062 +1,1275 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>edu-skill-forge — AI Skills for Indonesian Educators</title>
-  <meta name="description" content="Koleksi 6 AI Skill resmi untuk Antigravity & Agentic AI: RPS, UTS, UAS, Kontrak Kuliah, Jurnal Perkuliahan, Rubrik Penilaian OBE UNIROW." />
+  <title>edu-skill-forge — Portal Otomasi Perangkat Perkuliahan OBE 2026</title>
+  <meta name="description" content="Portal 6 AI Skill resmi UNIROW OBE 2026: Generator RPS, Kontrak Kuliah, Rubrik Penilaian, Soal UTS, Soal UAS, dan Jurnal Perkuliahan resmi untuk dosen dan pengajar." />
   <link rel="icon" type="image/svg+xml" href="logo.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet" />
+  
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    /* ── COLOR SYSTEM & THEMES ────────────────────────── */
     :root {
-      --c1: #7c3aed;
-      --c2: #2563eb;
-      --c3: #0891b2;
-      --c4: #059669;
-      --c5: #d97706;
-      --c6: #dc2626;
-      --grad: linear-gradient(135deg, #7c3aed 0%, #2563eb 35%, #0891b2 65%, #059669 100%);
-      --grad2: linear-gradient(135deg, #f0f9ff 0%, #faf5ff 50%, #f0fdf4 100%);
-      --dark: #0a0a0f;
-      --card-bg: rgba(255,255,255,0.05);
-      --card-border: rgba(255,255,255,0.12);
-      --text: #e2e8f0;
-      --muted: #94a3b8;
-      --radius: 16px;
+      --font-scale: 1;
+      
+      /* Vibrant Educational Colors */
+      --c-blue: #2563eb;
+      --c-green: #059669;
+      --c-amber: #d97706;
+      --c-purple: #7c3aed;
+      --c-rose: #e11d48;
+      --c-teal: #0891b2;
+      
+      --grad-brand: linear-gradient(135deg, #7c3aed 0%, #2563eb 40%, #059669 100%);
+      --grad-warm: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+      
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-pill: 9999px;
+      --transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    html { scroll-behavior: smooth; }
+    /* DARK THEME (Default) */
+    [data-theme="dark"] {
+      --bg: #090d16;
+      --bg-nav: rgba(9, 13, 22, 0.88);
+      --surface: #121929;
+      --surface-card: #151e32;
+      --surface-card-hover: #19243d;
+      --surface-muted: #1c2742;
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(255, 255, 255, 0.2);
+      --text: #f1f5f9;
+      --text-muted: #94a3b8;
+      --text-subtle: #64748b;
+      --card-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.45);
+      --card-shadow-hover: 0 16px 36px -6px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(96, 165, 250, 0.35);
+      --badge-bg: rgba(255, 255, 255, 0.06);
+      --search-bg: rgba(255, 255, 255, 0.07);
+    }
+
+    /* LIGHT THEME (Super High Readability for Senior Eyes) */
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --bg-nav: rgba(255, 255, 255, 0.92);
+      --surface: #ffffff;
+      --surface-card: #ffffff;
+      --surface-card-hover: #fcfdfe;
+      --surface-muted: #f1f5f9;
+      --border: #e2e8f0;
+      --border-hover: #cbd5e1;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --text-subtle: #64748b;
+      --card-shadow: 0 4px 16px -2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04);
+      --card-shadow-hover: 0 18px 32px -8px rgba(15, 23, 42, 0.12), 0 0 0 1.5px rgba(37, 99, 235, 0.25);
+      --badge-bg: #f1f5f9;
+      --search-bg: #ffffff;
+    }
+
+    /* ── BASE HTML / BODY ────────────────────────────── */
+    html {
+      scroll-behavior: smooth;
+      font-size: calc(15px * var(--font-scale));
+    }
 
     body {
-      font-family: 'Outfit', sans-serif;
-      background: var(--dark);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
       color: var(--text);
-      overflow: hidden;
-      height: 100vh;
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: background 0.3s ease, color 0.3s ease;
     }
 
-    /* ── CANVAS PARTICLES ─────────────────────────── */
-    #canvas {
+    @media (min-width: 1024px) {
+      body {
+        height: 100vh;
+        overflow: hidden;
+      }
+    }
+
+    /* ── AMBIENT BACKGROUND GLOW ─────────────────────── */
+    .ambient-glow {
       position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
+      top: 0; left: 0; right: 0; bottom: 0;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.4;
+      overflow: hidden;
+      opacity: 0.6;
     }
+    .glow-circle-1 {
+      position: absolute;
+      width: 600px; height: 600px;
+      top: -200px; left: -100px;
+      background: radial-gradient(circle, rgba(124, 58, 237, 0.18) 0%, transparent 70%);
+      filter: blur(40px);
+    }
+    .glow-circle-2 {
+      position: absolute;
+      width: 500px; height: 500px;
+      bottom: -150px; right: -50px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.15) 0%, transparent 70%);
+      filter: blur(40px);
+    }
+    [data-theme="light"] .ambient-glow { opacity: 0.3; }
 
-    /* ── NAV ─────────────────────────────────────── */
+    /* ── NAVIGATION ──────────────────────────────────── */
     nav {
-      position: fixed; top: 0; left: 0; right: 0;
-      z-index: 100;
+      position: relative;
+      z-index: 20;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 1rem 2rem;
-      background: rgba(10,10,15,0.8);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-    }
-    .nav-logo {
-      display: flex;
-      align-items: center;
-      gap: 0.55rem;
-      font-weight: 900;
-      font-size: 1.1rem;
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      letter-spacing: -0.5px;
-      text-decoration: none;
-    }
-    .nav-logo-img {
-      width: 30px; height: 30px;
-      border-radius: 7px;
-      background: #fff;
-      padding: 2px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+      padding: 0.65rem 1.75rem;
+      background: var(--bg-nav);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
       flex-shrink: 0;
     }
-    .nav-links { display: flex; gap: 1.5rem; }
-    .nav-links a {
-      color: var(--muted);
+
+    .brand-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
       text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 600;
-      transition: color 0.2s;
-    }
-    .nav-links a:hover { color: #fff; }
-    .btn-nav {
-      background: var(--grad);
-      color: #fff !important;
-      padding: 0.4rem 1.1rem;
-      border-radius: 50px;
-      font-size: 0.85rem !important;
     }
 
-    /* ── HERO ────────────────────────────────────── */
-    .hero {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
+    .brand-logo-box {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-sm);
+      background: #ffffff;
+      padding: 3px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+      flex-shrink: 0;
+    }
+
+    .brand-info {
       display: flex;
       flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 8rem 2rem 4rem;
     }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: rgba(124,58,237,0.15);
-      border: 1px solid rgba(124,58,237,0.4);
-      color: #a78bfa;
-      font-size: 0.8rem;
-      font-weight: 600;
-      padding: 0.35rem 1rem;
-      border-radius: 50px;
-      margin-bottom: 1.5rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-    }
-    .hero h1 {
-      font-size: clamp(3rem, 8vw, 6rem);
-      font-weight: 900;
-      line-height: 1;
-      letter-spacing: -2px;
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 1rem;
-    }
-    .hero-sub {
-      font-size: clamp(1rem, 2.5vw, 1.3rem);
-      color: var(--muted);
-      max-width: 600px;
-      line-height: 1.7;
-      margin-bottom: 2.5rem;
-    }
-    .hero-sub span {
-      color: #a78bfa;
-      font-weight: 600;
-    }
-    .hero-btns {
-      display: flex;
-      gap: 1rem;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 3rem;
-    }
-    .btn-primary {
-      background: var(--grad);
-      color: #fff;
-      border: none;
-      padding: 0.85rem 2rem;
-      border-radius: 50px;
-      font-size: 1rem;
-      font-weight: 700;
+
+    .brand-title {
       font-family: 'Outfit', sans-serif;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: transform 0.2s, box-shadow 0.2s;
-      box-shadow: 0 0 30px rgba(124,58,237,0.4);
-    }
-    .btn-primary:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 0 50px rgba(124,58,237,0.6);
-    }
-    .btn-secondary {
-      background: transparent;
-      color: var(--text);
-      border: 1px solid rgba(255,255,255,0.15);
-      padding: 0.85rem 2rem;
-      border-radius: 50px;
-      font-size: 1rem;
-      font-weight: 600;
-      font-family: 'Outfit', sans-serif;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.2s;
-    }
-    .btn-secondary:hover {
-      background: rgba(255,255,255,0.08);
-      border-color: rgba(255,255,255,0.3);
-    }
-    .stats-row {
-      display: flex;
-      gap: 2rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .stat {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .stat-num {
-      font-size: 2rem;
-      font-weight: 900;
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .stat-label {
-      font-size: 0.8rem;
-      color: var(--muted);
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    /* ── PAGE LAYOUT ──────────────────────────────── */
-    .page-wrap {
-      position: relative;
-      z-index: 1;
-      height: 100vh;
-      display: grid;
-      grid-template-rows: auto auto 1fr auto;
-      padding: 0 1.5rem;
-    }
-
-    /* ── HERO STRIP (compact) ─────────────────────── */
-    .hero-strip {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.55rem 0;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-      margin-top: 62px; /* nav height offset */
-    }
-    .hero-strip-left h1 {
-      font-size: clamp(1.1rem, 2.2vw, 1.35rem);
-      font-weight: 900;
-      letter-spacing: -0.5px;
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.2;
-    }
-    .hero-strip-left p {
-      font-size: 0.75rem;
-      color: var(--muted);
-      margin-top: 0.1rem;
-    }
-    .hero-strip-right {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
-    }
-    .strip-stat {
-      display: flex;
-      align-items: center;
-      gap: 0.35rem;
-      font-size: 0.72rem;
-      font-weight: 700;
-      font-family: 'JetBrains Mono', monospace;
-      color: #475569;
-    }
-    .strip-stat strong {
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-size: 0.9rem;
-    }
-    .strip-divider {
-      width: 1px; height: 20px;
-      background: rgba(255,255,255,0.08);
-    }
-    .badge-strip {
-      font-size: 0.67rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.07em;
-      color: #a78bfa;
-      background: rgba(124,58,237,0.12);
-      border: 1px solid rgba(124,58,237,0.25);
-      padding: 0.25rem 0.65rem;
-      border-radius: 50px;
-    }
-
-    /* ── SECTION TITLE ROW ────────────────────────── */
-    .skills-title-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0.5rem 0 0.4rem;
-    }
-    .skills-title-row span {
-      font-size: 0.78rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .skills-title-row small {
-      font-size: 0.68rem;
-      font-family: 'JetBrains Mono', monospace;
-      color: #334155;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.06);
-      padding: 0.15rem 0.55rem;
-      border-radius: 50px;
-    }
-
-    /* ── SKILL CARDS ─────────────────────────────── */
-    #skills { padding-top: 2rem; }
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, 1fr);
-      gap: 0.8rem;
-      padding-bottom: 0.4rem;
-    }
-    .card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      padding: 1rem 1.15rem;
-      cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-    .card::before {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: var(--card-grad, var(--grad));
-      opacity: 0;
-      transition: opacity 0.3s;
-      z-index: 0;
-    }
-    .card:hover { transform: translateY(-6px); }
-    .card:hover::before { opacity: 0.05; }
-    .card > * { position: relative; z-index: 1; }
-    .card-icon {
-      width: 40px; height: 40px;
-      border-radius: 10px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      margin-bottom: 0.6rem;
-    }
-    .card-tag {
-      display: inline-block;
-      font-size: 0.7rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      padding: 0.2rem 0.7rem;
-      border-radius: 50px;
-      margin-bottom: 0.75rem;
-    }
-    .card h3 {
-      font-size: 1.2rem;
       font-weight: 800;
-      color: #fff;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.3px;
+      font-size: 1.15rem;
+      line-height: 1.15;
+      background: var(--grad-brand);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.4px;
     }
-    .card p {
-      font-size: 0.9rem;
-      color: var(--muted);
-      line-height: 1.65;
-      margin-bottom: 1.25rem;
+
+    .brand-sub {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      letter-spacing: 0.2px;
     }
-    .card-footer {
+
+    .nav-actions {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 0.75rem;
     }
-    .card-lang {
+
+    /* Accessibility Button Group */
+    .acc-btn-group {
       display: flex;
+      align-items: center;
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 2px 4px;
+      gap: 2px;
+    }
+
+    .btn-acc {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      font-weight: 700;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .btn-acc:hover, .btn-acc.active {
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    }
+
+    /* Theme Toggle */
+    .btn-theme {
+      display: inline-flex;
       align-items: center;
       gap: 0.4rem;
-      font-size: 0.8rem;
-      color: var(--muted);
-      font-family: 'JetBrains Mono', monospace;
+      padding: 0.45rem 0.85rem;
+      border-radius: var(--radius-pill);
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
     }
-    .lang-dot {
-      width: 10px; height: 10px;
-      border-radius: 50%;
+    .btn-theme:hover {
+      border-color: var(--border-hover);
+      transform: translateY(-1px);
     }
-    .btn-card {
+
+    .btn-star {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.95rem;
+      border-radius: var(--radius-pill);
+      background: var(--grad-brand);
+      color: #ffffff;
+      text-decoration: none;
       font-size: 0.82rem;
       font-weight: 700;
-      color: #a78bfa;
-      background: rgba(124,58,237,0.12);
-      border: 1px solid rgba(124,58,237,0.3);
-      border-radius: 50px;
-      padding: 0.35rem 1rem;
-      cursor: pointer;
-      font-family: 'Outfit', sans-serif;
-      transition: all 0.2s;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+      transition: var(--transition);
     }
-    .btn-card:hover {
-      background: rgba(124,58,237,0.25);
+    .btn-star:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
     }
 
-    /* Card color variants */
-    .card.c1 { --card-grad: linear-gradient(135deg,#7c3aed,#4c1d95); }
-    .card.c1 .card-icon { background: rgba(124,58,237,0.2); }
-    .card.c1 .card-tag { background: rgba(124,58,237,0.15); color: #a78bfa; }
-    .card.c1:hover { border-color: rgba(124,58,237,0.5); box-shadow: 0 20px 60px rgba(124,58,237,0.2); }
-
-    .card.c2 { --card-grad: linear-gradient(135deg,#2563eb,#1e40af); }
-    .card.c2 .card-icon { background: rgba(37,99,235,0.2); }
-    .card.c2 .card-tag { background: rgba(37,99,235,0.15); color: #60a5fa; }
-    .card.c2:hover { border-color: rgba(37,99,235,0.5); box-shadow: 0 20px 60px rgba(37,99,235,0.2); }
-    .card.c2 .btn-card { color: #60a5fa; background: rgba(37,99,235,0.12); border-color: rgba(37,99,235,0.3); }
-
-    .card.c3 { --card-grad: linear-gradient(135deg,#0891b2,#164e63); }
-    .card.c3 .card-icon { background: rgba(8,145,178,0.2); }
-    .card.c3 .card-tag { background: rgba(8,145,178,0.15); color: #22d3ee; }
-    .card.c3:hover { border-color: rgba(8,145,178,0.5); box-shadow: 0 20px 60px rgba(8,145,178,0.2); }
-    .card.c3 .btn-card { color: #22d3ee; background: rgba(8,145,178,0.12); border-color: rgba(8,145,178,0.3); }
-
-    .card.c4 { --card-grad: linear-gradient(135deg,#059669,#064e3b); }
-    .card.c4 .card-icon { background: rgba(5,150,105,0.2); }
-    .card.c4 .card-tag { background: rgba(5,150,105,0.15); color: #34d399; }
-    .card.c4:hover { border-color: rgba(5,150,105,0.5); box-shadow: 0 20px 60px rgba(5,150,105,0.2); }
-    .card.c4 .btn-card { color: #34d399; background: rgba(5,150,105,0.12); border-color: rgba(5,150,105,0.3); }
-
-    .card.c5 { --card-grad: linear-gradient(135deg,#d97706,#78350f); }
-    .card.c5 .card-icon { background: rgba(217,119,6,0.2); }
-    .card.c5 .card-tag { background: rgba(217,119,6,0.15); color: #fbbf24; }
-    .card.c5:hover { border-color: rgba(217,119,6,0.5); box-shadow: 0 20px 60px rgba(217,119,6,0.2); }
-    .card.c5 .btn-card { color: #fbbf24; background: rgba(217,119,6,0.12); border-color: rgba(217,119,6,0.3); }
-
-    .card.c6 { --card-grad: linear-gradient(135deg,#dc2626,#7f1d1d); }
-    .card.c6 .card-icon { background: rgba(220,38,38,0.2); }
-    .card.c6 .card-tag { background: rgba(220,38,38,0.15); color: #f87171; }
-    .card.c6:hover { border-color: rgba(220,38,38,0.5); box-shadow: 0 20px 60px rgba(220,38,38,0.2); }
-    .card.c6 .btn-card { color: #f87171; background: rgba(220,38,38,0.12); border-color: rgba(220,38,38,0.3); }
-
-    /* ── HOW TO USE ──────────────────────────────── */
-    #howto { border-top: 1px solid rgba(255,255,255,0.06); }
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1.5rem;
-    }
-    .step-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-    }
-    .step-num {
-      font-size: 2.5rem;
-      font-weight: 900;
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      font-family: 'JetBrains Mono', monospace;
-      line-height: 1;
-      margin-bottom: 0.75rem;
-    }
-    .step-card h4 {
-      font-size: 1rem;
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 0.5rem;
-    }
-    .step-card p {
-      font-size: 0.85rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-    .code-block {
-      background: rgba(0,0,0,0.4);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 10px;
-      padding: 1rem 1.25rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      color: #86efac;
-      margin-top: 0.75rem;
-      overflow-x: auto;
-    }
-
-    /* ── MODAL ───────────────────────────────────── */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.75);
-      backdrop-filter: blur(10px);
-      z-index: 999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.3s;
-    }
-    .modal-overlay.open {
-      opacity: 1;
-      pointer-events: all;
-    }
-    .modal {
-      background: #13131a;
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 2rem;
-      max-width: 540px;
-      width: 100%;
-      transform: translateY(20px) scale(0.97);
-      transition: transform 0.3s;
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-    .modal-overlay.open .modal {
-      transform: translateY(0) scale(1);
-    }
-    .modal-header {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 1.25rem;
-    }
-    .modal-icon {
-      width: 56px; height: 56px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.8rem;
-    }
-    .modal-close {
-      background: rgba(255,255,255,0.08);
-      border: none;
-      color: var(--muted);
-      width: 36px; height: 36px;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.1rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-    .modal-close:hover { background: rgba(255,255,255,0.15); color: #fff; }
-    .modal h2 {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: #fff;
-      margin-bottom: 0.25rem;
-    }
-    .modal-repo {
-      font-size: 0.8rem;
-      color: var(--muted);
-      font-family: 'JetBrains Mono', monospace;
-      margin-bottom: 1rem;
-    }
-    .modal-desc {
-      font-size: 0.95rem;
-      color: var(--muted);
-      line-height: 1.7;
-      margin-bottom: 1.5rem;
-    }
-    .modal-features h4 {
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: #a78bfa;
-      margin-bottom: 0.75rem;
-    }
-    .feature-list {
-      list-style: none;
+    /* ── MAIN WORKSPACE CONTAINER ────────────────────── */
+    .workspace-wrap {
+      position: relative;
+      z-index: 10;
+      flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
-      margin-bottom: 1.5rem;
+      max-width: 1540px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 0.6rem 1.5rem 0.4rem;
+      overflow: hidden;
     }
-    .feature-list li {
+
+    /* ── SUBHEADER / FILTER TOOLBAR ──────────────────── */
+    .toolbar-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-bottom: 0.65rem;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    .welcome-meta {
       display: flex;
       align-items: center;
       gap: 0.6rem;
-      font-size: 0.9rem;
-      color: var(--text);
     }
-    .feature-list li::before {
-      content: '✦';
-      font-size: 0.7rem;
-      color: #a78bfa;
-      flex-shrink: 0;
+
+    .pill-unirow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: rgba(123, 0, 0, 0.12);
+      border: 1px solid rgba(123, 0, 0, 0.28);
+      color: #b91c1c;
+      padding: 0.22rem 0.65rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 700;
     }
-    .modal-btns {
+    [data-theme="dark"] .pill-unirow {
+      background: rgba(220, 38, 38, 0.15);
+      border-color: rgba(220, 38, 38, 0.35);
+      color: #fca5a5;
+    }
+
+    .pill-standard {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--badge-bg);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 0.22rem 0.65rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.78rem;
+      font-weight: 600;
+    }
+
+    .filter-group {
       display: flex;
-      gap: 0.75rem;
+      align-items: center;
+      gap: 0.5rem;
       flex-wrap: wrap;
     }
-    .btn-modal-primary {
-      background: var(--grad);
-      color: #fff;
-      border: none;
-      padding: 0.65rem 1.5rem;
-      border-radius: 50px;
-      font-size: 0.9rem;
-      font-weight: 700;
-      font-family: 'Outfit', sans-serif;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-flex;
+
+    .search-box {
+      display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.45rem;
+      background: var(--search-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 0.32rem 0.85rem;
+      transition: var(--transition);
+      min-width: 240px;
+    }
+    .search-box:focus-within {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+    }
+    .search-box input {
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--text);
+      font-size: 0.82rem;
+      font-family: inherit;
+      width: 100%;
+    }
+    .search-box input::placeholder {
+      color: var(--text-subtle);
+    }
+
+    .filter-tabs {
+      display: flex;
+      align-items: center;
+      background: var(--surface-muted);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-pill);
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .filter-tab {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 0.3rem 0.75rem;
+      border-radius: var(--radius-pill);
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      white-space: nowrap;
+    }
+    .filter-tab:hover {
+      color: var(--text);
+    }
+    .filter-tab.active {
+      background: var(--surface);
+      color: var(--text);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    /* ── CARDS GRID (3x2 Desktop Layout) ─────────────── */
+    .skills-grid {
+      flex: 1;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 0.75rem;
+      min-height: 0;
+    }
+
+    @media (max-width: 1023px) {
+      .skills-grid {
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: auto;
+        overflow-y: auto;
+        padding-bottom: 1.5rem;
+      }
+    }
+    @media (max-width: 640px) {
+      .skills-grid {
+        grid-template-columns: 1fr;
+      }
+      .toolbar-row {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+
+    /* ── INDIVIDUAL CARD ─────────────────────────────── */
+    .skill-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 0.85rem 1.05rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--card-shadow);
+      position: relative;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+
+    .skill-card:hover {
+      background: var(--surface-card-hover);
+      border-color: var(--border-hover);
+      box-shadow: var(--card-shadow-hover);
+      transform: translateY(-2px);
+    }
+
+    /* Top Accent Line */
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3.5px;
+      background: var(--card-accent, var(--c-blue));
+      opacity: 0.85;
+      transition: height 0.2s;
+    }
+    .skill-card:hover::before {
+      height: 5px;
+      opacity: 1;
+    }
+
+    /* Card Themes */
+    .card-rps     { --card-accent: var(--c-blue);   --accent-light: rgba(37, 99, 235, 0.12); }
+    .card-kontrak { --card-accent: var(--c-green);  --accent-light: rgba(5, 150, 105, 0.12); }
+    .card-rubrik  { --card-accent: var(--c-amber);  --accent-light: rgba(217, 119, 6, 0.12); }
+    .card-uts     { --card-accent: var(--c-purple); --accent-light: rgba(124, 58, 237, 0.12); }
+    .card-uas     { --card-accent: var(--c-rose);   --accent-light: rgba(225, 29, 72, 0.12); }
+    .card-jurnal  { --card-accent: var(--c-teal);   --accent-light: rgba(8, 145, 178, 0.12); }
+
+    /* Card Header Area */
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 0.35rem;
+    }
+
+    .card-icon-bubble {
+      width: 44px;
+      height: 44px;
+      border-radius: var(--radius-sm);
+      background: var(--accent-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.45rem;
+      flex-shrink: 0;
+      border: 1px solid rgba(255, 255, 255, 0.08);
       transition: transform 0.2s;
     }
-    .btn-modal-primary:hover { transform: translateY(-1px); }
-    .btn-modal-sec {
-      background: transparent;
-      color: var(--muted);
-      border: 1px solid rgba(255,255,255,0.12);
-      padding: 0.65rem 1.5rem;
-      border-radius: 50px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      font-family: 'Outfit', sans-serif;
-      cursor: pointer;
-      text-decoration: none;
+    .skill-card:hover .card-icon-bubble {
+      transform: scale(1.06);
+    }
+
+    .card-title-group {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .card-step-badge {
       display: inline-flex;
       align-items: center;
-      gap: 0.4rem;
-      transition: all 0.2s;
+      gap: 0.25rem;
+      font-size: 0.68rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--card-accent);
+      margin-bottom: 0.15rem;
     }
-    .btn-modal-sec:hover { color: #fff; border-color: rgba(255,255,255,0.3); }
 
-    /* ── FOOTER ──────────────────────────────────── */
+    .card-heading {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--text);
+      line-height: 1.25;
+      margin-bottom: 0.15rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .card-subtext {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Card Middle: Description */
+    .card-body-desc {
+      font-size: 0.81rem;
+      line-height: 1.42;
+      color: var(--text-muted);
+      margin-bottom: 0.4rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* Card Feature Badges */
+    .card-pill-row {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      flex-wrap: wrap;
+      margin-bottom: 0.55rem;
+    }
+
+    .feature-tag {
+      background: var(--badge-bg);
+      border: 1px solid var(--border);
+      color: var(--text-subtle);
+      font-size: 0.69rem;
+      font-weight: 600;
+      padding: 0.14rem 0.45rem;
+      border-radius: var(--radius-sm);
+    }
+
+    /* Card Footer: Action Buttons */
+    .card-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding-top: 0.45rem;
+      border-top: 1px solid var(--border);
+      margin-top: auto;
+    }
+
+    /* Big Friendly Launch Button */
+    .btn-launch {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+      background: var(--card-accent);
+      color: #ffffff !important;
+      text-decoration: none;
+      padding: 0.48rem 0.8rem;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 0.84rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      transition: var(--transition);
+      cursor: pointer;
+      border: none;
+    }
+    .btn-launch:hover {
+      filter: brightness(1.1);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    }
+
+    /* Secondary Detail / Guide Button */
+    .btn-info {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.3rem;
+      background: var(--surface-muted);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 0.48rem 0.7rem;
+      border-radius: var(--radius-sm);
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .btn-info:hover {
+      background: var(--surface-card);
+      color: var(--text);
+      border-color: var(--border-hover);
+    }
+
+    /* ── COMPACT FOOTER ──────────────────────────────── */
     footer {
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid rgba(255,255,255,0.06);
-      padding: 2.5rem 2rem;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.35rem 1.75rem 0.45rem;
+      background: var(--bg-nav);
+      border-top: 1px solid var(--border);
+      font-size: 0.74rem;
+      color: var(--text-subtle);
+      flex-shrink: 0;
     }
     footer a {
-      color: #a78bfa;
+      color: var(--text-muted);
       text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
     }
-    footer a:hover { text-decoration: underline; }
-    .footer-logo {
-      font-size: 1.4rem;
+    footer a:hover {
+      color: var(--c-blue);
+      text-decoration: underline;
+    }
+
+    /* ── ACCESSIBLE MODAL OVERLAY ────────────────────── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.2s ease;
+    }
+    .modal-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal-card {
+      background: var(--surface);
+      border: 1px solid var(--border-hover);
+      border-radius: var(--radius-lg);
+      width: 100%;
+      max-width: 620px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);
+      overflow: hidden;
+      transform: scale(0.96) translateY(8px);
+      transition: var(--transition);
+    }
+    .modal-backdrop.open .modal-card {
+      transform: scale(1) translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--surface-muted);
+    }
+
+    .modal-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+    .modal-icon-lg {
+      width: 48px; height: 48px;
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+
+    .btn-close-modal {
+      width: 32px; height: 32px;
+      border-radius: var(--radius-pill);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    .btn-close-modal:hover {
+      color: var(--text);
+      border-color: var(--border-hover);
+    }
+
+    .modal-content {
+      padding: 1.5rem;
+      max-height: 70vh;
+      overflow-y: auto;
+    }
+
+    .modal-desc-box {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: var(--text);
+      margin-bottom: 1.25rem;
+      background: var(--badge-bg);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      border-radius: var(--radius-md);
+    }
+
+    .modal-feature-title {
+      font-size: 0.84rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-subtle);
+      margin-bottom: 0.65rem;
+    }
+
+    .modal-checklist {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.65rem;
+      margin-bottom: 1.5rem;
+    }
+    @media (max-width: 540px) {
+      .modal-checklist { grid-template-columns: 1fr; }
+    }
+
+    .modal-checklist li {
+      font-size: 0.82rem;
+      line-height: 1.4;
+      color: var(--text-muted);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.45rem;
+    }
+    .modal-checklist li::before {
+      content: '✓';
+      color: var(--c-green);
       font-weight: 900;
-      background: var(--grad);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 0.5rem;
     }
 
-    /* ── RESPONSIVE ──────────────────────────────── */
-    @media (max-width: 640px) {
-      .nav-links { display: none; }
-      .cards-grid { grid-template-columns: 1fr; }
-      .steps-grid { grid-template-columns: 1fr 1fr; }
+    .modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 0.75rem;
+      padding: 1rem 1.5rem;
+      background: var(--surface-muted);
+      border-top: 1px solid var(--border);
     }
-
-    /* ── ANIMATIONS ──────────────────────────────── */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .fade-up { animation: fadeUp 0.6s ease forwards; }
-    .fade-up:nth-child(1) { animation-delay: 0.1s; }
-    .fade-up:nth-child(2) { animation-delay: 0.2s; }
-    .fade-up:nth-child(3) { animation-delay: 0.3s; }
-    .fade-up:nth-child(4) { animation-delay: 0.35s; }
-    .fade-up:nth-child(5) { animation-delay: 0.4s; }
-    .fade-up:nth-child(6) { animation-delay: 0.45s; }
-
-    @keyframes pulse-glow {
-      0%, 100% { box-shadow: 0 0 30px rgba(124,58,237,0.3); }
-      50% { box-shadow: 0 0 60px rgba(37,99,235,0.5); }
-    }
-    .btn-primary { animation: pulse-glow 3s infinite; }
   </style>
 </head>
 <body>
 
-<canvas id="canvas"></canvas>
-
-<!-- NAV -->
-<nav>
-  <a href="menu.html" class="nav-logo">
-    <span class="nav-logo-img">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 110" width="26" height="26" fill="none">
-        <polygon points="4,8 22,8 22,102 4,102" fill="#7B0000"/>
-        <polygon points="22,8 42,8 64,54 44,54" fill="#7B0000"/>
-        <polygon points="44,54 64,54 82,8 62,8" fill="#7B0000"/>
-        <polygon points="62,8 80,8 80,102 62,102" fill="#7B0000"/>
-        <polygon points="62,8 128,8 128,26 62,26" fill="#7B0000"/>
-        <polygon points="62,44 114,44 114,60 62,60" fill="#7B0000"/>
-        <polygon points="34,54 54,54 72,20 52,20" fill="#C5A028"/>
-      </svg>
-    </span>
-    edu-skill-forge
-  </a>
-  <div class="nav-links">
-    <a href="#skills">Skills</a>
-    <a href="#howto">Cara Pakai</a>
-    <a href="https://github.com/mariofahmi/mariofahmi-edu-skill-forge" target="_blank" class="btn-nav">⭐ GitHub</a>
+  <!-- Ambient Light Effect -->
+  <div class="ambient-glow">
+    <div class="glow-circle-1"></div>
+    <div class="glow-circle-2"></div>
   </div>
-</nav>
 
-<!-- page wrapper -->
-<div class="page-wrap">
+  <!-- NAVIGATION HEADER -->
+  <nav>
+    <a href="index.html" class="brand-wrap">
+      <div class="brand-logo-box">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 130 110" width="28" height="28" fill="none">
+          <polygon points="4,8 22,8 22,102 4,102" fill="#7B0000"/>
+          <polygon points="22,8 42,8 64,54 44,54" fill="#7B0000"/>
+          <polygon points="44,54 64,54 82,8 62,8" fill="#7B0000"/>
+          <polygon points="62,8 80,8 80,102 62,102" fill="#7B0000"/>
+          <polygon points="62,8 128,8 128,26 62,26" fill="#7B0000"/>
+          <polygon points="62,44 114,44 114,60 62,60" fill="#7B0000"/>
+          <polygon points="34,54 54,54 72,20 52,20" fill="#C5A028"/>
+        </svg>
+      </div>
+      <div class="brand-info">
+        <span class="brand-title">edu-skill-forge</span>
+        <span class="brand-sub">Portal Perangkat Perkuliahan OBE 2026 · UNIROW Tuban</span>
+      </div>
+    </a>
 
-<!-- HERO STRIP -->
-<div class="hero-strip">
-  <div class="hero-strip-left">
-    <h1>edu-skill-forge</h1>
-    <p>6 AI Skill resmi · Antigravity &amp; Agentic AI · UNIROW OBE 2026</p>
+    <div class="nav-actions">
+      <!-- Accessibility Font Scaling -->
+      <div class="acc-btn-group" title="Ubah Ukuran Tulisan">
+        <button class="btn-acc" onclick="setFontScale(0.92)" title="Tulisan Kecil">A-</button>
+        <button class="btn-acc active" id="btnNorm" onclick="setFontScale(1)" title="Tulisan Normal">A</button>
+        <button class="btn-acc" onclick="setFontScale(1.08)" title="Tulisan Besar">A+</button>
+      </div>
+
+      <!-- Theme Switcher -->
+      <button class="btn-theme" id="themeToggle" onclick="toggleTheme()" title="Ganti Tampilan Terang/Gelap">
+        <span id="themeIcon">☀️</span> <span id="themeLabel">Mode Terang</span>
+      </button>
+
+      <!-- GitHub Link -->
+      <a href="https://github.com/mariofahmi/mariofahmi-edu-skill-forge" target="_blank" class="btn-star" title="Buka Repositori GitHub">
+        ⭐ GitHub
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN WORKSPACE -->
+  <main class="workspace-wrap">
+    
+    <!-- TOOLBAR / FILTER & SEARCH -->
+    <div class="toolbar-row">
+      <div class="welcome-meta">
+        <span class="pill-unirow">🏛️ FKIP UNIROW Tuban</span>
+        <span class="pill-standard">🎓 6 Modul Otomatisasi OBE 2026</span>
+      </div>
+
+      <div class="filter-group">
+        <!-- Quick Search -->
+        <div class="search-box">
+          <span>🔍</span>
+          <input type="text" id="searchInput" placeholder="Cari nama perangkat (RPS, UTS, Jurnal)..." oninput="handleSearch()" />
+        </div>
+
+        <!-- Category Tabs -->
+        <div class="filter-tabs">
+          <button class="filter-tab active" data-cat="all" onclick="filterCategory('all', this)">🌟 Semua (6)</button>
+          <button class="filter-tab" data-cat="perencanaan" onclick="filterCategory('perencanaan', this)">📑 Perencanaan</button>
+          <button class="filter-tab" data-cat="evaluasi" onclick="filterCategory('evaluasi', this)">🎯 Evaluasi &amp; Nilai</button>
+          <button class="filter-tab" data-cat="catatan" onclick="filterCategory('catatan', this)">📖 Catatan</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SKILLS GRID (Chronological Order for Lecturers: Step 1 to 6) -->
+    <div class="skills-grid" id="skillsGrid">
+
+      <!-- CARD 1: RPS -->
+      <div class="skill-card card-rps" data-cat="perencanaan" data-keywords="rps rencana pembelajaran semester kurikulum cpl cpmk sub-cpmk">
+        <div>
+          <div class="card-top">
+            <div class="card-icon-bubble">📋</div>
+            <div class="card-title-group">
+              <span class="card-step-badge">Langkah 1 · Kurikulum</span>
+              <h2 class="card-heading">RPS OBE 2026</h2>
+              <div class="card-subtext">Rencana Pembelajaran Semester</div>
+            </div>
+          </div>
+          <p class="card-body-desc">
+            Penyusunan dokumen kurikulum 16 minggu pertemuan, matriks korelasi CPL × CPMK, bahan kajian, serta rubrik holistik standar mutu UNIROW.
+          </p>
+          <div class="card-pill-row">
+            <span class="feature-tag">📄 Format Word (.docx)</span>
+            <span class="feature-tag">🎯 CPL &amp; Bloom</span>
+            <span class="feature-tag">⏱️ 16 Minggu</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="skills/rps/" target="_blank" class="btn-launch" title="Buka Aplikasi RPS OBE">
+            🚀 Buka Aplikasi
+          </a>
+          <button class="btn-info" onclick="openModal('rps')" title="Lihat Panduan &amp; Detail Fitur">
+            ℹ️ Panduan
+          </button>
+        </div>
+      </div>
+
+      <!-- CARD 2: KONTRAK KULIAH -->
+      <div class="skill-card card-kontrak" data-cat="perencanaan" data-keywords="kontrak kuliah perkuliahan kesepakatan tata tertib bobot nilai">
+        <div>
+          <div class="card-top">
+            <div class="card-icon-bubble">🤝</div>
+            <div class="card-title-group">
+              <span class="card-step-badge">Langkah 2 · Kesepakatan</span>
+              <h2 class="card-heading">Kontrak Perkuliahan</h2>
+              <div class="card-subtext">Kesepakatan &amp; Tata Tertib Belajar</div>
+            </div>
+          </div>
+          <p class="card-body-desc">
+            Otomatis menyusun berkas Kontrak Kuliah resmi dari dokumen RPS. Berisi jadwal, komponen penilaian 100%, tata tertib, dan lembar tanda tangan.
+          </p>
+          <div class="card-pill-row">
+            <span class="feature-tag">📄 Format Word (.docx)</span>
+            <span class="feature-tag">⚖️ Bobot Valid 100%</span>
+            <span class="feature-tag">✍️ Siap TTD</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="skills/kontrak-kuliah/" target="_blank" class="btn-launch" title="Buka Aplikasi Kontrak Perkuliahan">
+            🚀 Buka Aplikasi
+          </a>
+          <button class="btn-info" onclick="openModal('kontrak')" title="Lihat Panduan &amp; Detail Fitur">
+            ℹ️ Panduan
+          </button>
+        </div>
+      </div>
+
+      <!-- CARD 3: RUBRIK PENILAIAN -->
+      <div class="skill-card card-rubrik" data-cat="evaluasi" data-keywords="rubrik penilaian analitik 4 pita skor kriteria sangat baik baik cukup kurang">
+        <div>
+          <div class="card-top">
+            <div class="card-icon-bubble">📊</div>
+            <div class="card-title-group">
+              <span class="card-step-badge">Langkah 3 · Panduan Nilai</span>
+              <h2 class="card-heading">Rubrik Penilaian OBE</h2>
+              <div class="card-subtext">Rubrik Analitik 4 Pita Standar UNIROW</div>
+            </div>
+          </div>
+          <p class="card-body-desc">
+            Generator kriteria penilaian analitik 4 pita (Sangat Baik, Baik, Cukup, Kurang) dan tabel konversi nilai akhir A–E berbasis capaian Sub-CPMK.
+          </p>
+          <div class="card-pill-row">
+            <span class="feature-tag">📄 Format Word (.docx)</span>
+            <span class="feature-tag">📊 4 Pita Kriteria</span>
+            <span class="feature-tag">📈 Konversi A–E</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="skills/rubrik-penilaian/" target="_blank" class="btn-launch" title="Buka Aplikasi Rubrik Penilaian">
+            🚀 Buka Aplikasi
+          </a>
+          <button class="btn-info" onclick="openModal('rubrik')" title="Lihat Panduan &amp; Detail Fitur">
+            ℹ️ Panduan
+          </button>
+        </div>
+      </div>
+
+      <!-- CARD 4: SOAL UTS -->
+      <div class="skill-card card-uts" data-cat="evaluasi" data-keywords="soal uts ujian tengah semester evaluasi bloom c1 c6 esai pg">
+        <div>
+          <div class="card-top">
+            <div class="card-icon-bubble">📝</div>
+            <div class="card-title-group">
+              <span class="card-step-badge">Langkah 4 · Ujian Tengah</span>
+              <h2 class="card-heading">Soal UTS Resmi</h2>
+              <div class="card-subtext">Naskah Ujian Tengah Semester (Mg 1–7)</div>
+            </div>
+          </div>
+          <p class="card-body-desc">
+            Generator naskah Soal UTS ber-KOP resmi dan logo UNIROW FKIP. Menyusun butir soal berbobot Taksonomi Bloom (C2–C6) dari materi RPS pertemuan 1–7.
+          </p>
+          <div class="card-pill-row">
+            <span class="feature-tag">📄 Naskah Siap Cetak</span>
+            <span class="feature-tag">🏛️ KOP Resmi UNIROW</span>
+            <span class="feature-tag">🧠 Taksonomi Bloom</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="skills/uts/" target="_blank" class="btn-launch" title="Buka Aplikasi Soal UTS">
+            🚀 Buka Aplikasi
+          </a>
+          <button class="btn-info" onclick="openModal('uts')" title="Lihat Panduan &amp; Detail Fitur">
+            ℹ️ Panduan
+          </button>
+        </div>
+      </div>
+
+      <!-- CARD 5: SOAL UAS -->
+      <div class="skill-card card-uas" data-cat="evaluasi" data-keywords="soal uas ujian akhir semester evaluasi bloom c3 c6 hots">
+        <div>
+          <div class="card-top">
+            <div class="card-icon-bubble">🎓</div>
+            <div class="card-title-group">
+              <span class="card-step-badge">Langkah 5 · Ujian Akhir</span>
+              <h2 class="card-heading">Soal UAS Resmi</h2>
+              <div class="card-subtext">Naskah Ujian Akhir Semester (Mg 9–16)</div>
+            </div>
+          </div>
+          <p class="card-body-desc">
+            Generator naskah Soal UAS ber-KOP resmi UNIROW FKIP. Materi pasca-UTS dengan evaluasi tingkat tinggi (C3–C6: Analisis, Evaluasi &amp; Sintesis).
+          </p>
+          <div class="card-pill-row">
+            <span class="feature-tag">📄 Naskah Siap Cetak</span>
+            <span class="feature-tag">🔥 HOTS (C3–C6)</span>
+            <span class="feature-tag">🏛️ Logo FKIP</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="skills/uas/" target="_blank" class="btn-launch" title="Buka Aplikasi Soal UAS">
+            🚀 Buka Aplikasi
+          </a>
+          <button class="btn-info" onclick="openModal('uas')" title="Lihat Panduan &amp; Detail Fitur">
+            ℹ️ Panduan
+          </button>
+        </div>
+      </div>
+
+      <!-- CARD 6: JURNAL PERKULIAHAN -->
+      <div class="skill-card card-jurnal" data-cat="catatan" data-keywords="jurnal perkuliahan mengajar catatan kelas presensi 16 minggu pengesahan">
+        <div>
+          <div class="card-top">
+            <div class="card-icon-bubble">📖</div>
+            <div class="card-title-group">
+              <span class="card-step-badge">Langkah 6 · Administrasi</span>
+              <h2 class="card-heading">Jurnal Perkuliahan</h2>
+              <div class="card-subtext">Catatan Perkuliahan &amp; Pengesahan</div>
+            </div>
+          </div>
+          <p class="card-body-desc">
+            Catatan mengajar resmi UNIROW FKIP dengan tabel 6 kolom: No, Hari, Tanggal, Jam, Mata Kuliah, dan Pokok Bahasan 16 pertemuan lengkap lembar pengesahan.
+          </p>
+          <div class="card-pill-row">
+            <span class="feature-tag">📄 Pas 1 Halaman A4</span>
+            <span class="feature-tag">📋 Tabel 6 Kolom</span>
+            <span class="feature-tag">✍️ Kolom Tanda Tangan</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <a href="skills/jurnal-perkuliahan/" target="_blank" class="btn-launch" title="Buka Aplikasi Jurnal Perkuliahan">
+            🚀 Buka Aplikasi
+          </a>
+          <button class="btn-info" onclick="openModal('jurnal')" title="Lihat Panduan &amp; Detail Fitur">
+            ℹ️ Panduan
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- ACCESSIBLE FOOTER -->
+  <footer>
+    <div>
+      Dikembangkan oleh <a href="https://github.com/mariofahmi" target="_blank">@mariofahmi</a> &nbsp;·&nbsp;
+      Universitas PGRI Ronggolawe (UNIROW) Tuban &nbsp;·&nbsp; Standar Mutu OBE 2026
+    </div>
+    <div style="display:flex;align-items:center;gap:1rem;">
+      <a href="menu.html">📋 Tampilan Alternatif (Menu View)</a>
+      <span>·</span>
+      <a href="https://github.com/mariofahmi/mariofahmi-edu-skill-forge/blob/main/LICENSE" target="_blank">Lisensi MIT</a>
+    </div>
+  </footer>
+
+  <!-- MODAL PANDUAN LENGKAP -->
+  <div class="modal-backdrop" id="modalBackdrop" onclick="handleBackdropClick(event)">
+    <div class="modal-card" id="modalCard">
+      <div class="modal-header">
+        <div class="modal-header-left">
+          <div class="modal-icon-lg" id="modalIcon">📋</div>
+          <div>
+            <span id="modalStep" style="font-size:0.75rem;font-weight:800;color:var(--c-blue);text-transform:uppercase;"></span>
+            <h2 id="modalTitle" style="font-family:'Outfit',sans-serif;font-size:1.25rem;font-weight:800;color:var(--text);margin-top:2px;"></h2>
+          </div>
+        </div>
+        <button class="btn-close-modal" onclick="closeModal()" title="Tutup Jendela (Esc)">✕</button>
+      </div>
+
+      <div class="modal-content">
+        <div class="modal-desc-box" id="modalDesc"></div>
+        <div class="modal-feature-title">✦ Fitur &amp; Kemudahan yang Dihasilkan:</div>
+        <ul class="modal-checklist" id="modalChecklist"></ul>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-info" onclick="closeModal()">Tutup</button>
+        <a id="modalLaunchBtn" href="#" target="_blank" class="btn-launch" style="flex:unset;padding:0.55rem 1.4rem;">
+          🚀 Buka Aplikasi Sekarang
+        </a>
+      </div>
+    </div>
   </div>
-  <div class="hero-strip-right">
-    <span class="badge-strip">🎓 OBE 2026</span>
-    <div class="strip-divider"></div>
-    <div class="strip-stat"><strong>6</strong> Skills</div>
-    <div class="strip-stat"><strong>MIT</strong> License</div>
-    <a href="https://github.com/mariofahmi/mariofahmi-edu-skill-forge" target="_blank" class="btn-nav" style="margin:0">⭐ Star</a>
-  </div>
-</div>
 
-<!-- SKILLS TITLE ROW -->
-<div class="skills-title-row">
-  <span>📦 Skill Library</span>
-  <small>Klik kartu → detail &amp; cara pakai</small>
-</div>
+  <!-- SCRIPT LOGIC -->
+  <script>
+    /* Data Detail Skill */
+    const BASE_URL = 'skills/';
+    const skillData = {
+      rps: {
+        step: 'Langkah 1 · Kurikulum Induk',
+        icon: '📋',
+        title: 'RPS — Rencana Pembelajaran Semester OBE 2026',
+        live: BASE_URL + 'rps/',
+        desc: 'Modul penyusunan dan pengisian Rencana Pembelajaran Semester (RPS) sesuai template baku UNIROW Tuban berbasis Outcome-Based Education (OBE) 2026. Menyelaraskan profil lulusan, CPL Prodi, CPMK, materi mingguan, hingga evaluasi.',
+        features: [
+          'Format baku resmi UNIROW OBE 2026',
+          'Tersedia katalog 63 mata kuliah lengkap',
+          'Matriks korelasi CPL terhadap Sub-CPMK',
+          'Rencana pembelajaran mingguan 1–16 pertemuan',
+          'UTS pada Minggu ke-8 & UAS pada Minggu ke-16',
+          'Rubrik penilaian holistik & skala konversi nilai',
+          'Unduh naskah Word (.docx) atau PDF siap pakai'
+        ]
+      },
+      kontrak: {
+        step: 'Langkah 2 · Kesepakatan Awal',
+        icon: '🤝',
+        title: 'Kontrak Perkuliahan OBE',
+        live: BASE_URL + 'kontrak-kuliah/',
+        desc: 'Menyusun berkas Kontrak Perkuliahan resmi untuk pertemuan tatap muka pertama. Mengunci kesepakatan hak & kewajiban mahasiswa, tata tertib perkuliahan, dan pembobotan nilai yang presisi 100%.',
+        features: [
+          'KOP surat resmi UNIROW FKIP',
+          'Identitas lengkap: Dosen, Mata Kuliah, SKS, Semester',
+          'Komponen penilaian otomatis sinkron dengan RPS',
+          'Kompilasi tata tertib & etika perkuliahan',
+          'Lembar tanda tangan perwakilan mahasiswa & dosen',
+          'Cukup 1-klik untuk ekspor naskah Word (.docx)'
+        ]
+      },
+      rubrik: {
+        step: 'Langkah 3 · Pedoman Evaluasi',
+        icon: '📊',
+        title: 'Rubrik Penilaian Analitik OBE',
+        live: BASE_URL + 'rubrik-penilaian/',
+        desc: 'Generator otomatis instrumen penilaian analitik 4 rentang capaian mutu (Sangat Baik, Baik, Cukup, Kurang) berbasis Sub-CPMK dari RPS serta konversi nilai angka ke huruf (A, B+, B, C+, C, D, E).',
+        features: [
+          '4 pita penilaian objektif & terukur',
+          'Sinkron otomatis dengan Sub-CPMK dokumen RPS',
+          'Tabel kriteria deskriptif per indikator',
+          'Pedoman konversi nilai akhir resmi UNIROW',
+          'Format file Word (.docx) dan Markdown (.md)',
+          'Sangat mudah dilampirkan dalam portofolio OBE'
+        ]
+      },
+      uts: {
+        step: 'Langkah 4 · Ujian Tengah Semester',
+        icon: '📝',
+        title: 'Naskah Soal UTS Resmi UNIROW',
+        live: BASE_URL + 'uts/',
+        desc: 'Generator lembar naskah Soal Ujian Tengah Semester dengan KOP dan logo resmi UNIROW FKIP. Menyusun soal esai maupun pilihan ganda berbasis Taksonomi Bloom (C2–C6) dari materi pertemuan 1 sampai 7.',
+        features: [
+          'KOP resmi Fakultas Keguruan dan Ilmu Pendidikan',
+          'Tabel identitas: Prodi, Dosen, Makul, Waktu, Sifat',
+          'Soal evaluasi Taksonomi Bloom terstandar',
+          'Bisa otomatis mengambil materi Sub-CPMK RPS',
+          'Pengaturan petunjuk pengerjaan dan bobot tiap soal',
+          'Naskah Word (.docx) rapi siap langsung dicetak'
+        ]
+      },
+      uas: {
+        step: 'Langkah 5 · Ujian Akhir Semester',
+        icon: '🎓',
+        title: 'Naskah Soal UAS Resmi UNIROW',
+        live: BASE_URL + 'uas/',
+        desc: 'Generator lembar naskah Soal Ujian Akhir Semester dengan KOP resmi. Memfokuskan evaluasi pada materi pasca-UTS (pertemuan 9–16) dengan standar soal HOTS (Higher Order Thinking Skills: C3–C6).',
+        features: [
+          'KOP resmi UNIROW FKIP berlogo kampus',
+          'Tabel lengkap jadwal, sifat ujian, dan pengampu',
+          'Evaluasi capaian akhir (Analisis, Evaluasi, Kreasi)',
+          'Format soal esai analitik, studi kasus, atau PG',
+          'Penutup resmi "SELAMAT MENGERJAKAN"',
+          'Naskah Word (.docx) presisi siap distribusi'
+        ]
+      },
+      jurnal: {
+        step: 'Langkah 6 · Administrasi Mengajar',
+        icon: '📖',
+        title: 'Jurnal Perkuliahan UNIROW FKIP',
+        live: BASE_URL + 'jurnal-perkuliahan/',
+        desc: 'Generator dokumen catatan materi perkuliahan harian. Menyajikan tabel 6 kolom (No, Hari, Tanggal, Jam, Mata Kuliah, Pokok Bahasan) untuk 16 kali tatap muka yang pas tercetak dalam 1 lembar A4.',
+        features: [
+          'KOP 3-kolom simetris berlogo UNIROW FKIP',
+          'Tabel 6 kolom standar administrasi akademik',
+          'Membaca materi mingguan otomatis dari RPS',
+          'Kolom hari, tanggal, jam siap diisi manual/ketik',
+          'Lembar tanda tangan pengesahan dosen & Dekanat',
+          'Format pas 1 halaman utuh tanpa terpotong'
+        ]
+      }
+    };
 
-<!-- SKILLS GRID -->
-<div class="cards-grid">
+    /* Modal Handlers */
+    function openModal(skillKey) {
+      const data = skillData[skillKey];
+      if (!data) return;
 
-    <div class="card c1 fade-up" onclick="openModal('jurnal')">
-      <div class="card-icon">📔</div>
-      <div class="card-tag">Jurnal Perkuliahan</div>
-      <h3>Jurnal Perkuliahan</h3>
-      <p>Generator otomatis Jurnal Perkuliahan resmi UNIROW FKIP dengan kop 3-kolom, tabel 6 kolom, dan lembar pengesahan.</p>
-      <div class="card-footer">
-        <div class="card-lang">
-          <div class="lang-dot" style="background:#e34c26"></div>HTML
-        </div>
-        <button class="btn-card">Lihat Detail →</button>
-      </div>
-    </div>
+      document.getElementById('modalStep').textContent = data.step;
+      document.getElementById('modalIcon').textContent = data.icon;
+      document.getElementById('modalTitle').textContent = data.title;
+      document.getElementById('modalDesc').textContent = data.desc;
+      document.getElementById('modalLaunchBtn').href = data.live;
 
-    <div class="card c2 fade-up" onclick="openModal('rps')">
-      <div class="card-icon">📋</div>
-      <div class="card-tag">RPS OBE</div>
-      <h3>RPS — Rencana Pembelajaran Semester</h3>
-      <p>Susun, isi, dan format dokumen RPS sesuai standar resmi UNIROW OBE 2026 secara otomatis lengkap dengan 16 minggu pertemuan.</p>
-      <div class="card-footer">
-        <div class="card-lang">
-          <div class="lang-dot" style="background:#e34c26"></div>HTML
-        </div>
-        <button class="btn-card">Lihat Detail →</button>
-      </div>
-    </div>
+      const list = document.getElementById('modalChecklist');
+      list.innerHTML = data.features.map(f => `<li>${f}</li>`).join('');
 
-    <div class="card c3 fade-up" onclick="openModal('uts')">
-      <div class="card-icon">📝</div>
-      <div class="card-tag">Soal UTS</div>
-      <h3>Soal UTS Resmi UNIROW</h3>
-      <p>Generator naskah Soal Ujian Tengah Semester ber-KOP resmi UNIROW FKIP dengan logo, tabel identitas, dan soal Taksonomi Bloom.</p>
-      <div class="card-footer">
-        <div class="card-lang">
-          <div class="lang-dot" style="background:#e34c26"></div>HTML
-        </div>
-        <button class="btn-card">Lihat Detail →</button>
-      </div>
-    </div>
+      document.getElementById('modalBackdrop').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
 
-    <div class="card c4 fade-up" onclick="openModal('kontrak')">
-      <div class="card-icon">🤝</div>
-      <div class="card-tag">Kontrak Kuliah</div>
-      <h3>Kontrak Perkuliahan OBE</h3>
-      <p>Otomatis menyusun Kontrak Kuliah resmi dari dokumen RPS — lengkap dengan komponen penilaian, tata tertib, dan tanda tangan.</p>
-      <div class="card-footer">
-        <div class="card-lang">
-          <div class="lang-dot" style="background:#e34c26"></div>HTML
-        </div>
-        <button class="btn-card">Lihat Detail →</button>
-      </div>
-    </div>
+    function closeModal() {
+      document.getElementById('modalBackdrop').classList.remove('open');
+      document.body.style.overflow = '';
+    }
 
-    <div class="card c5 fade-up" onclick="openModal('uas')">
-      <div class="card-icon">📄</div>
-      <div class="card-tag">Soal UAS</div>
-      <h3>Soal UAS Resmi UNIROW</h3>
-      <p>Generator naskah Soal Ujian Akhir Semester ber-KOP resmi, materi pasca-UTS (pertemuan 9–16) berbasis Taksonomi Bloom C3–C6.</p>
-      <div class="card-footer">
-        <div class="card-lang">
-          <div class="lang-dot" style="background:#e34c26"></div>HTML
-        </div>
-        <button class="btn-card">Lihat Detail →</button>
-      </div>
-    </div>
-
-    <div class="card c6 fade-up" onclick="openModal('rubrik')">
-      <div class="card-icon">📊</div>
-      <div class="card-tag">Rubrik Penilaian</div>
-      <h3>Rubrik Penilaian Analitik OBE</h3>
-      <p>Generator Rubrik Penilaian 4 pita (Sangat Baik, Baik, Cukup, Kurang) berbasis Sub-CPMK dari RPS OBE 2026 dalam format .docx & .md.</p>
-      <div class="card-footer">
-        <div class="card-lang">
-          <div class="lang-dot" style="background:#3572A5"></div>Python
-        </div>
-        <button class="btn-card">Lihat Detail →</button>
-      </div>
-    </div>
-
-</div><!-- /cards-grid -->
-
-<!-- FOOTER BAR -->
-<footer style="display:flex;align-items:center;justify-content:space-between;padding:0.45rem 0 0.65rem;border-top:1px solid rgba(255,255,255,0.05);font-size:0.7rem;color:#334155;">
-  <span>by <a href="https://github.com/mariofahmi" target="_blank" style="color:#475569;text-decoration:none">@mariofahmi</a> &nbsp;·&nbsp; UNIROW Tuban &nbsp;·&nbsp; MIT License</span>
-  <a href="menu.html" style="font-size:0.72rem;color:#475569;text-decoration:none;font-weight:600;">📋 Halaman Menu →</a>
-</footer>
-
-</div><!-- /page-wrap -->
-
-
-
-<!-- MODAL OVERLAY -->
-<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
-  <div class="modal" id="modalBox">
-    <div class="modal-header">
-      <div class="modal-icon" id="mIcon"></div>
-      <button class="modal-close" onclick="closeModal()">✕</button>
-    </div>
-    <h2 id="mTitle"></h2>
-    <div class="modal-repo" id="mRepo"></div>
-    <p class="modal-desc" id="mDesc"></p>
-    <div class="modal-features">
-      <h4>✦ Fitur Utama</h4>
-      <ul class="feature-list" id="mFeatures"></ul>
-    </div>
-    <div class="modal-btns">
-      <a id="mBtnLive" href="#" target="_blank" class="btn-modal-primary">🚀 Buka Skill App</a>
-      <a id="mBtnGithub" href="#" target="_blank" class="btn-modal-sec">⭐ GitHub</a>
-      <button class="btn-modal-sec" onclick="closeModal()">✕ Tutup</button>
-    </div>
-  </div>
-</div>
-
-<script>
-/* ── DATA SKILLS ─────────────────────────────────── */
-const BASE = 'https://mariofahmi.github.io/mariofahmi-edu-skill-forge/';
-const REPO = 'https://github.com/mariofahmi/mariofahmi-edu-skill-forge';
-
-const skills = {
-  jurnal: {
-    icon: '📔', color: 'rgba(124,58,237,0.2)',
-    title: 'Jurnal Perkuliahan',
-    repo: 'mariofahmi-edu-skill-forge · skills/jurnal-perkuliahan/',
-    live: BASE + 'skills/jurnal-perkuliahan/',
-    github: REPO,
-    desc: 'Generator otomatis dokumen Jurnal Perkuliahan resmi UNIROW FKIP. Cukup upload RPS atau Kontrak Kuliah, AI langsung membuat jurnal lengkap tanpa input manual.',
-    features: [
-      'Kop UNIROW 3-kolom simetris berlogo resmi',
-      'Tabel 6 kolom: No | Hari | Tanggal | Jam | Makul | Pokok Bahasan',
-      'Otomatis baca RPS untuk isi 16 pertemuan',
-      'Kolom tanggal & hari dikosongkan (isi manual)',
-      'Lembar tanda tangan pengesahan',
-      'Output: .docx + .md dalam 1 halaman utuh'
-    ]
-  },
-  rps: {
-    icon: '📋', color: 'rgba(37,99,235,0.2)',
-    title: 'RPS — Rencana Pembelajaran Semester',
-    repo: 'mariofahmi-edu-skill-forge · skills/rps/',
-    live: BASE + 'skills/rps/',
-    github: REPO,
-    desc: 'Susun, isi, validasi, dan format dokumen RPS sesuai standar resmi UNIROW OBE 2026. Lengkap dari CPL/CPMK hingga rencana mingguan 16 pertemuan.',
-    features: [
-      'Format resmi UNIROW OBE 2026',
-      'CPL, CPMK, Sub-CPMK terstruktur',
-      'Matriks korelasi CPL × Sub-CPMK',
-      'Rencana pembelajaran 16 minggu (UTS Mg-8, UAS Mg-16)',
-      'Rubrik penilaian holistik & konversi nilai akhir',
-      'Output: .docx sesuai template resmi kampus'
-    ]
-  },
-  uts: {
-    icon: '📝', color: 'rgba(8,145,178,0.2)',
-    title: 'Soal UTS Resmi UNIROW',
-    repo: 'mariofahmi-edu-skill-forge · skills/uts/',
-    live: BASE + 'skills/uts/',
-    github: REPO,
-    desc: 'Generator naskah Soal Ujian Tengah Semester ber-KOP resmi dan logo UNIROW FKIP. Bisa menyusun soal dari RPS atau format soal yang sudah ada.',
-    features: [
-      'KOP resmi UNIROW FKIP + logo kampus',
-      'Tabel identitas: Prodi, Dosen, MK, Waktu, Angkatan',
-      'Soal berbasis Taksonomi Bloom (C1-C6)',
-      'Baca otomatis dari RPS materi minggu 1–7',
-      'Format esai maupun pilihan ganda',
-      'Output: .docx naskah siap cetak'
-    ]
-  },
-  kontrak: {
-    icon: '🤝', color: 'rgba(5,150,105,0.2)',
-    title: 'Kontrak Perkuliahan OBE',
-    repo: 'mariofahmi-edu-skill-forge · skills/kontrak-kuliah/',
-    live: BASE + 'skills/kontrak-kuliah/',
-    github: REPO,
-    desc: 'Otomatis menyusun Kontrak Kuliah resmi dari dokumen RPS. Menghasilkan kontrak perkuliahan lengkap selaras presisi dengan RPS OBE yang ada.',
-    features: [
-      'KOP resmi UNIROW FKIP',
-      'Identitas MK, dosen, SKS, semester otomatis',
-      'Komponen & bobot penilaian dari RPS',
-      'Tata tertib dan aturan perkuliahan',
-      'Lembar tanda tangan mahasiswa & dosen',
-      'Output: .docx + .md siap pakai'
-    ]
-  },
-  uas: {
-    icon: '📄', color: 'rgba(217,119,6,0.2)',
-    title: 'Soal UAS Resmi UNIROW',
-    repo: 'mariofahmi-edu-skill-forge · skills/uas/',
-    live: BASE + 'skills/uas/',
-    github: REPO,
-    desc: 'Generator naskah Soal Ujian Akhir Semester ber-KOP resmi UNIROW FKIP. Materi pasca-UTS (pertemuan 9–16) dengan Taksonomi Bloom level tinggi (C3–C6).',
-    features: [
-      'KOP resmi UNIROW FKIP + logo kampus',
-      'Tabel identitas: Prodi, Dosen, MK, Sifat, Tanggal',
-      'Soal Taksonomi Bloom C3–C6 (analisis–evaluasi)',
-      'Baca otomatis dari RPS materi minggu 9–16',
-      'Format esai maupun pilihan ganda',
-      'Output: .docx naskah siap cetak'
-    ]
-  },
-  rubrik: {
-    icon: '📊', color: 'rgba(220,38,38,0.2)',
-    title: 'Rubrik Penilaian Analitik OBE',
-    repo: 'mariofahmi-edu-skill-forge · skills/rubrik-penilaian/',
-    live: BASE + 'skills/rubrik-penilaian/',
-    github: REPO,
-    desc: 'Generator otomatis Rubrik Penilaian analitik 4 pita berbasis Sub-CPMK dari RPS OBE 2026. Menghasilkan rubrik dan pedoman nilai akhir sesuai standar UNIROW.',
-    features: [
-      '4 pita penilaian: Sangat Baik, Baik, Cukup, Kurang',
-      'Diambil langsung dari Sub-CPMK RPS',
-      'Pedoman konversi nilai akhir resmi UNIROW',
-      'Rubrik analitik per komponen penilaian',
-      'Deskriptor kriteria yang presisi dan terukur',
-      'Output: .docx + .md siap lampir RPS'
-    ]
-  }
-};
-
-/* ── MODAL ───────────────────────────────────────── */
-function openModal(id) {
-  const s = skills[id];
-  document.getElementById('mIcon').textContent = s.icon;
-  document.getElementById('mIcon').style.background = s.color;
-  document.getElementById('mTitle').textContent = s.title;
-  document.getElementById('mRepo').textContent = '📁 ' + s.repo;
-  document.getElementById('mDesc').textContent = s.desc;
-  document.getElementById('mBtnLive').href = s.live;
-  document.getElementById('mBtnGithub').href = s.github;
-  const ul = document.getElementById('mFeatures');
-  ul.innerHTML = s.features.map(f => `<li>${f}</li>`).join('');
-  document.getElementById('modalOverlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-function closeModal() {
-  document.getElementById('modalOverlay').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function closeModalOutside(e) {
-  if (e.target === document.getElementById('modalOverlay')) closeModal();
-}
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-/* ── CANVAS PARTICLES ────────────────────────────── */
-const canvas = document.getElementById('canvas');
-const ctx = canvas.getContext('2d');
-let particles = [];
-const colors = ['#7c3aed','#2563eb','#0891b2','#059669','#d97706'];
-
-function resize() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-}
-resize();
-window.addEventListener('resize', resize);
-
-function createParticle() {
-  return {
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    r: Math.random() * 2 + 0.5,
-    vx: (Math.random() - 0.5) * 0.4,
-    vy: (Math.random() - 0.5) * 0.4,
-    color: colors[Math.floor(Math.random() * colors.length)],
-    alpha: Math.random() * 0.5 + 0.2
-  };
-}
-
-for (let i = 0; i < 80; i++) particles.push(createParticle());
-
-function animateParticles() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  particles.forEach(p => {
-    p.x += p.vx; p.y += p.vy;
-    if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
-    if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
-    ctx.beginPath();
-    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = p.color;
-    ctx.globalAlpha = p.alpha;
-    ctx.fill();
-  });
-  // Draw connections
-  ctx.globalAlpha = 0.06;
-  for (let i = 0; i < particles.length; i++) {
-    for (let j = i+1; j < particles.length; j++) {
-      const dx = particles[i].x - particles[j].x;
-      const dy = particles[i].y - particles[j].y;
-      const dist = Math.sqrt(dx*dx + dy*dy);
-      if (dist < 120) {
-        ctx.beginPath();
-        ctx.strokeStyle = particles[i].color;
-        ctx.lineWidth = 0.5;
-        ctx.moveTo(particles[i].x, particles[i].y);
-        ctx.lineTo(particles[j].x, particles[j].y);
-        ctx.stroke();
+    function handleBackdropClick(e) {
+      if (e.target === document.getElementById('modalBackdrop')) {
+        closeModal();
       }
     }
-  }
-  ctx.globalAlpha = 1;
-  requestAnimationFrame(animateParticles);
-}
-animateParticles();
-</script>
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    /* Theme Switcher Logic */
+    function initTheme() {
+      const savedTheme = localStorage.getItem('edu-theme') || 'dark';
+      applyTheme(savedTheme);
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+      localStorage.setItem('edu-theme', next);
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      const icon = document.getElementById('themeIcon');
+      const label = document.getElementById('themeLabel');
+      if (theme === 'light') {
+        icon.textContent = '🌙';
+        label.textContent = 'Mode Gelap';
+      } else {
+        icon.textContent = '☀️';
+        label.textContent = 'Mode Terang';
+      }
+    }
+
+    /* Font Scale Accessibility */
+    function setFontScale(scale) {
+      document.documentElement.style.setProperty('--font-scale', scale);
+      document.querySelectorAll('.btn-acc').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    /* Search & Filter Logic */
+    function handleSearch() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim();
+      const cards = document.querySelectorAll('.skill-card');
+
+      cards.forEach(card => {
+        const text = (card.getAttribute('data-keywords') + ' ' + card.innerText).toLowerCase();
+        if (!q || text.includes(q)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function filterCategory(cat, btnEl) {
+      document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+      btnEl.classList.add('active');
+
+      const cards = document.querySelectorAll('.skill-card');
+      cards.forEach(card => {
+        if (cat === 'all' || card.getAttribute('data-cat') === cat) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Initialize Theme on Load
+    initTheme();
+  </script>
 </body>
 </html>
