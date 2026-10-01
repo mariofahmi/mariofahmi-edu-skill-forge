@@ -1,81 +1,43 @@
-# RPS UNIROW — Generator Rencana Pembelajaran Semester OBE 2026
+# RPS UNIROW — Generator Rencana Pembelajaran Semester OBE Kurikulum 2023 Pendidikan Matematika
 
-"Artificial intelligence module (custom skill) for Google Antigravity, Cursor IDE, and Claude Code to compile, populate, and format Semester Learning Plan (RPS) documents compliant with the standard format and quality standards of Universitas PGRI Ronggolawe (UNIROW) Tuban, based on the 2026 OBE (Outcome-Based Education) curriculum.
+Modul Artificial Intelligence (custom skill) untuk Google Antigravity, Cursor IDE, dan Claude Code untuk menyusun, mengisi, dan memformat dokumen Rencana Pembelajaran Semester (RPS) sesuai format resmi dan standar mutu Universitas PGRI Ronggolawe (UNIROW) Tuban berbasis Kurikulum 2023 MBKM Program Studi Pendidikan Matematika serta template resmi Wakil Rektor 1 (versi narasumber OBE Pak Samsul).
 
 ---
 
 ## 🌟 Fitur Utama & Standar Mutu
 
-1. **Format Baku A4 Landscape (100% Sesuai Template Resmi)**:
+1. **Format Baku A4 Landscape (100% Sesuai Template Resmi WR 1)**:
    - Orientasi **A4 Landscape** penuh (`w="16838" h="11909"` dxa).
    - Margin halaman presisi: Atas/Bawah `39.6 pt`, Kiri/Kanan `43.2 pt`.
    - Tipografi elegan **Cambria** (Body 10.5 pt, Header 11 pt, Judul 12 pt bold).
    - Garis tabel single-line warna `#B0B5B3` (sz 4 / 0.5 pt) dengan padding sel proporsional.
 
-2. **4 Komponen Anatomi Dokumen Lengkap**:
-   - **Tabel 0: Identitas, Otorisasi, CPL-CPMK & Korelasi (20 Baris)**:
-     - KOP resmi universitas & prodi, nama MK, kode, SKS, semester, tanggal penyusunan.
-     - Pejabat pengembang RPS, Koordinator RMK, dan Kaprodi lengkap dengan NIDN/gelar.
-     - CPL Prodi, CPMK 1–4, Sub-CPMK 1–14 berlabel taksonomi Bloom (misal: `[C4, A3]`).
-     - **Tabel Bersarang (Nested Table 18 Baris)**: Matriks korelasi CPL terhadap Sub-CPMK dengan centang (`✓`) dan persentase bobot presisi 100%.
-     - Deskripsi mata kuliah, bahan kajian, pustaka ber-ISBN, dan dosen pengampu.
-   - **Tabel 1: Matriks Rencana Pembelajaran 16 Minggu (19 Baris × 8 Kolom)**:
-     - Sesi perkuliahan terstruktur 16 minggu dengan beban belajar SN-Dikti Permendikbudristek No. 53/2023.
-     - Minggu ke-8: **Ujian Tengah Semester (UTS)** berbobot 25% (shading `#F4F6F7`).
-     - Minggu ke-16: **Ujian Akhir Semester (UAS)** berbobot 25% (shading `#F4F6F7`).
-   - **Tabel 2: Rubrik Penilaian Holistik (5 Baris × 5 Kolom)**:
-     - 4 kriteria: Pemahaman Konsep (40%), Analisis Kritis (30%), Aplikasi Konteks Lokal (20%), Sistematika & Komunikasi (10%).
-   - **Bagian Evaluasi, Skala 7, Soal UAS & Lembar Pengesahan**:
-     - Standar mutu konversi nilai skala 7 resmi UNIROW (A s.d. E, batas kelulusan C 56.00).
-     - 5 paket butir soal UAS berbasis HOTS sesuai Sub-CPMK.
-     - Kartu pengesahan/validasi oleh Tim Pengembang Kurikulum.
+2. **Katalog 68 Mata Kuliah Lengkap (Semester 1 s.d. 8)**:
+   - Terintegrasi penuh dengan Kurikulum 2023 MBKM Prodi Pendidikan Matematika (pemutakhiran 15 Januari 2025).
+   - Memetakan 7 butir CPL Prodi Pendidikan Matematika, CPMK 1–4, dan Sub-CPMK 1–14 berlabel taksonomi Bloom.
+   - Matriks korelasi bersarang (Nested Table 18 baris) berbobot presisi 100%.
+   - Sesi perkuliahan 16 minggu dengan beban belajar SN-Dikti Permendikbudristek No. 53/2023 (PB, PT, KM).
+   - Evaluasi Tengah Semester (UTS) di Minggu ke-8 (25%) dan Evaluasi Akhir Semester (UAS) di Minggu ke-16 (25%).
+   - Rubrik Penilaian Holistik Matematika (Pemahaman Konsep, Analisis Kritis, Pemodelan, Sistematika Notasi).
+   - Konversi nilai akhir Skala 7 resmi UNIROW Tuban (A s.d. E) dan 3-5 paket butir soal UAS HOTS.
 
 ---
 
 ## 📁 Struktur Berkas Skill
 
 ```text
-rps-unirow/
+skills/rps/
 ├── SKILL.md                          # Definisi instruksi skill & panduan operasional AI
-├── README.md                         # Dokumentasi repository publik
+├── README.md                         # Dokumentasi modul skill
 ├── assets/
-│   ├── Template_RPS_UNIROW.docx      # Master template Word A4 Landscape resmi
-│   └── Template_RPS_UNIROW_OLD.docx  # Template pembanding arsip DIKTI
-├── references/
-│   └── placeholder_map.md            # Peta pemetaan placeholder & sel tabel
-└── scripts/
-    └── build_rps.py                  # Engine generator otomatis dokumen Word (.docx)
+│   ├── template_rps_wr1_narsum_obe.docx # Master template Word A4 Landscape resmi WR 1
+│   ├── Template_RPS_UNIROW.docx      # Master template Word referensi sistem
+│   └── logo_unirow.png               # Logo resmi UNIROW Tuban
+├── scripts/
+│   ├── build_rps.py                  # Engine generator otomatis dokumen Word (.docx)
+│   └── generate_all_pmat_rps.py      # Batch generator seluruh 68 mata kuliah PMAT 2023
+└── index.html                        # Portal web simulator & live generator interaktif
 ```
-
----
-
-## 🚀 Prasyarat & Instalasi
-
-### 1. Prasyarat Sistem
-- Python 3.8 atau lebih baru.
-- Library `python-docx`:
-  ```bash
-  pip install python-docx
-  ```
-
-### 2. Cara Pemasangan di Google Antigravity
-
-#### Opsi A: Pasang di Proyek Tertentu (Workspace)
-Buka terminal di root workspace Anda, lalu clone:
-```bash
-git clone https://github.com/mariofahmi/skillISORPS.git .agents/skills/rps-unirow
-```
-
-#### Opsi B: Pasang Secara Global (Berlaku untuk Semua Proyek)
-Clone ke folder konfigurasi global Antigravity:
-* **Windows (PowerShell)**:
-  ```powershell
-  git clone https://github.com/mariofahmi/skillISORPS.git "$env:USERPROFILE\.gemini\config\skills\rps-unirow"
-  ```
-* **Linux / macOS**:
-  ```bash
-  git clone https://github.com/mariofahmi/skillISORPS.git ~/.gemini/config/skills/rps-unirow
-  ```
 
 ---
 
@@ -83,24 +45,29 @@ Clone ke folder konfigurasi global Antigravity:
 
 ### 1. Melalui Chat AI Antigravity
 Cukup ketik perintah di obrolan Antigravity:
-> `"/rps-unirow buatkan RPS mata kuliah Hukum Tata Negara 4 SKS untuk Semester 3 kurikulum OBE 2026"`
+> `"/rps-unirow buatkan RPS mata kuliah Struktur Aljabar 3 SKS untuk Semester 4 Kurikulum 2023 Pendidikan Matematika UNIROW"`
 
-AI akan secara otomatis memetakan CPL, merumuskan CPMK & Sub-CPMK berlabel Bloom, menyusun silabus 16 minggu, serta menghasilkan dokumen Word `.docx` siap cetak.
+AI akan secara otomatis memetakan CPL-Prodi PMAT, merumuskan CPMK & Sub-CPMK berlabel Bloom, menyusun silabus 16 minggu, serta menghasilkan dokumen Word `.docx` siap cetak.
 
 ### 2. Melalui CLI (Terminal Python Langsung)
 ```powershell
-py ".agents\skills\rps-unirow\scripts\build_rps.py"
+# Menghasilkan seluruh 68 mata kuliah sekaligus:
+python "skills\rps\scripts\generate_all_pmat_rps.py"
+
+# Menghasilkan satu mata kuliah via JSON:
+python "skills\rps\scripts\build_rps.py" --data "data_mk.json" --output "RPS_Kalkulus_I_OBE.docx"
 ```
 
 ### 3. Melalui Simulator & Portal Web Interaktif
-Kunjungi live demo di: **[https://mariofahmi.github.io/skillISORPS/](https://mariofahmi.github.io/skillISORPS/)**
-- **Unduh Word (.docx)**: Ekspor dokumen OpenXML `.docx` asli kurikulum OBE 2026 secara instan langsung di peramban (client-side via JSZip engine).
-- **Cetak / Ekspor PDF A4 Landscape**: Tata letak WYSIWYG A4 Landscape 100% presisi untuk langsung dicetak atau disimpan ke format PDF.
-- **Salin Markdown RPS**: Salin naskah ringkasan terstruktur untuk integrasi cepat ke LMS / catatan dosen.
-
+Buka file `skills/rps/index.html` langsung di peramban (browser) untuk:
+- Memilih cepat dari katalog **68 Mata Kuliah** Kurikulum 2023 PMAT.
+- Pratinjau interaktif tata letak A4 Landscape.
+- Mengunduh langsung dokumen OpenXML `.docx` via client-side JSZip engine.
 
 ---
 
-## 📄 Lisensi & Kontributor
-- **Pengembang**: Mario Fahmi Syahrial, M.Pd. (Program Studi PPKn, FKIP UNIROW Tuban)
-- **Kompatibilitas**: Google Antigravity, Antigravity 2.0, Cursor IDE, Claude Code
+## 📄 Kontributor & Otorisasi
+- **Program Studi**: Pendidikan Matematika (PMAT), FKIP Universitas PGRI Ronggolawe Tuban
+- **Kaprodi**: Puji Rahayu, M.Pd. (NIDN. 0718018801)
+- **Koordinator Kurikulum / RMK**: Rachmalia Vinda Kusuma, M.Pd. (NIDN. 0713058804)
+- **Pengembang Skill**: Mario Fahmi Syahrial, M.Pd. & Tim Dosen Pendidikan Matematika
